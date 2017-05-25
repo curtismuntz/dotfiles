@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Dev aliases
+alias mi='cmake .. && make install -j'
+alias makerton='make -j4'
+
+# Other
+alias u='cd ..'
+alias ls=' ls --color=always'
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ll'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+
+function cd {
+    builtin cd "$@" && tree -L 1
+}

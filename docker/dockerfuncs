@@ -1,0 +1,123 @@
+#!/bin/bash
+# Bash wrappers for docker run commands
+
+dcleanup(){
+	local containers
+	containers=( $(docker ps -aq 2>/dev/null) )
+	docker rm "${containers[@]}" 2>/dev/null
+	local volumes
+	volumes=( $(docker ps --filter status=exited -q 2>/dev/null) )
+	docker rm -v "${volumes[@]}" 2>/dev/null
+	local images
+	images=( $(docker images --filter dangling=true -q 2>/dev/null) )
+	docker rmi "${images[@]}" 2>/dev/null
+}
+del_stopped(){
+	local name=$1
+	local state
+	state=$(docker inspect --format "{{.State.Running}}" "$name" 2>/dev/null)
+
+	if [[ "$state" == "false" ]]; then
+		docker rm "$name"
+	fi
+}
+relies_on(){
+	for container in "$@"; do
+		local state
+		state=$(docker inspect --format "{{.State.Running}}" "$container" 2>/dev/null)
+
+		if [[ "$state" == "false" ]] || [[ "$state" == "" ]]; then
+			echo "$container is not running, starting it for you."
+			$container
+		fi
+	done
+}
+# creates an nginx config for a local route
+nginx_config(){
+	server=$1
+	route=$2
+
+	cat >"${HOME}/.nginx/conf.d/${server}.conf" <<-EOF
+	upstream ${server} { server ${route}; }
+	server {
+	server_name ${server};
+	location / {
+	proxy_pass  http://${server};
+	proxy_http_version 1.1;
+	proxy_set_header Upgrade \$http_upgrade;
+	proxy_set_header Connection "upgrade";
+	proxy_set_header Host \$http_host;
+	proxy_set_header X-Forwarded-Proto \$scheme;
+	proxy_set_header X-Forwarded-For \$remote_addr;
+	proxy_set_header X-Forwarded-Port \$server_port;
+	proxy_set_header X-Request-Start \$msec;
+}
+	}
+	EOF
+
+	# restart nginx
+	docker restart nginx
+
+	# add host to /etc/hosts
+	hostess add "$server" 127.0.0.1
+
+	# open browser
+	browser-exec "http://${server}"
+}
+
+zim_wiki_docker(){
+    del_stopped zim_wiki_docker
+    docker run -it --rm -d \
+       -e DISPLAY=$DISPLAY \
+       -v /tmp/.X11-unix:/tmp/.X11-unix \
+       -v /home/murt/Notebooks/Notes:/home/developer/Notebooks/Notes \
+       -v /home/murt/Pictures/wiki:/home/developer/Pictures/wiki \
+       --name zim_wiki \
+       custom/zim_wiki
+}
+
+custom_spotify(){
+    del_stopped custom_spotify
+    docker run -d --rm \
+	-v /etc/localtime:/etc/localtime:ro \
+	-v /tmp/.X11-unix:/tmp/.X11-unix \
+	-e DISPLAY=unix$DISPLAY \
+	--device /dev/snd:/dev/snd \
+	-v $HOME/.spotify/config:/home/spotify/.config/spotify \
+	-v $HOME/.spotify/cache:/home/spotify/spotify \
+	--name spotify \
+	custom/spotify
+}
+
+custom_slack(){
+	del_stopped custom_slack
+	docker run -d --rm -it \
+		-v /etc/localtime:/etc/localtime:ro \
+		-v /tmp/.X11-unix:/tmp/.X11-unix \
+		-e DISPLAY=unix$DISPLAY \
+		--device /dev/snd \
+		--device /dev/dri \
+		--group-add audio \
+		-v "${HOME}/.slack:/root/.config/Slack" \
+		--ipc="host" \
+		--name slack \
+		custom/slack
+}
+
+custom_gzserver(){
+    docker run -d --rm -it \
+    --name=gzserver \
+    custom/gazeboserver
+}
+
+custom_gzclient(){
+    del_stopped custom_gzclient
+    xhost +local:root
+    docker run --rm -it \
+	-v /etc/localtime:/etc/localtime:ro \
+	-v "/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+	-e DISPLAY=unix$DISPLAY \
+	--name gazeboclient \
+	custom/gazeboclient
+
+}

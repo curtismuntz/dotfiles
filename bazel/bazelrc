@@ -1,0 +1,1 @@
+build --verbose_failures --curses yes --color yes --announce_rc --jobs 100 --local_resources 4096,2.0,1.0 --copt=-fdiagnostics-color=always
