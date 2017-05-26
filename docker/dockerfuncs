@@ -1,123 +1,116 @@
 #!/bin/bash
 # Bash wrappers for docker run commands
+alias dl='docker ps -l -q'
 
 dcleanup(){
-	local containers
-	containers=( $(docker ps -aq 2>/dev/null) )
-	docker rm "${containers[@]}" 2>/dev/null
-	local volumes
-	volumes=( $(docker ps --filter status=exited -q 2>/dev/null) )
-	docker rm -v "${volumes[@]}" 2>/dev/null
-	local images
-	images=( $(docker images --filter dangling=true -q 2>/dev/null) )
-	docker rmi "${images[@]}" 2>/dev/null
+    local containers
+    containers=( $(docker ps -aq 2>/dev/null) )
+    docker rm "${containers[@]}" 2>/dev/null
+    local volumes
+    volumes=( $(docker ps --filter status=exited -q 2>/dev/null) )
+    docker rm -v "${volumes[@]}" 2>/dev/null
+    local images
+    images=( $(docker images --filter dangling=true -q 2>/dev/null) )
+    docker rmi "${images[@]}" 2>/dev/null
 }
+
 del_stopped(){
-	local name=$1
-	local state
-	state=$(docker inspect --format "{{.State.Running}}" "$name" 2>/dev/null)
-
-	if [[ "$state" == "false" ]]; then
-		docker rm "$name"
-	fi
+    local name=$1
+    local state
+    state=$(docker inspect --format "{{.State.Running}}" "$name" 2>/dev/null)
+    if [[ "$state" == "false" ]]; then
+        docker rm "$name"
+    fi
 }
+
 relies_on(){
-	for container in "$@"; do
-		local state
-		state=$(docker inspect --format "{{.State.Running}}" "$container" 2>/dev/null)
-
-		if [[ "$state" == "false" ]] || [[ "$state" == "" ]]; then
-			echo "$container is not running, starting it for you."
-			$container
-		fi
-	done
-}
-# creates an nginx config for a local route
-nginx_config(){
-	server=$1
-	route=$2
-
-	cat >"${HOME}/.nginx/conf.d/${server}.conf" <<-EOF
-	upstream ${server} { server ${route}; }
-	server {
-	server_name ${server};
-	location / {
-	proxy_pass  http://${server};
-	proxy_http_version 1.1;
-	proxy_set_header Upgrade \$http_upgrade;
-	proxy_set_header Connection "upgrade";
-	proxy_set_header Host \$http_host;
-	proxy_set_header X-Forwarded-Proto \$scheme;
-	proxy_set_header X-Forwarded-For \$remote_addr;
-	proxy_set_header X-Forwarded-Port \$server_port;
-	proxy_set_header X-Request-Start \$msec;
-}
-	}
-	EOF
-
-	# restart nginx
-	docker restart nginx
-
-	# add host to /etc/hosts
-	hostess add "$server" 127.0.0.1
-
-	# open browser
-	browser-exec "http://${server}"
+    for container in "$@"; do
+        local state
+        state=$(docker inspect --format "{{.State.Running}}" "$container" 2>/dev/null)
+        if [[ "$state" == "false" ]] || [[ "$state" == "" ]]; then
+            echo "$container is not running, starting it for you."
+            $container
+        fi
+    done
 }
 
-zim_wiki_docker(){
-    del_stopped zim_wiki_docker
+custom_zim(){
+    del_stopped zim
     docker run -it --rm -d \
        -e DISPLAY=$DISPLAY \
        -v /tmp/.X11-unix:/tmp/.X11-unix \
-       -v /home/murt/Notebooks/Notes:/home/developer/Notebooks/Notes \
-       -v /home/murt/Pictures/wiki:/home/developer/Pictures/wiki \
-       --name zim_wiki \
-       custom/zim_wiki
+       -v $HOME/murt/Notes:/home/curtis/Notebooks/Notes \
+       -v $HOME/Pictures/wiki:/home/curtis/Pictures/wiki \
+       --name zim \
+       custom/zim "$@"
 }
 
 custom_spotify(){
-    del_stopped custom_spotify
-    docker run -d --rm \
-	-v /etc/localtime:/etc/localtime:ro \
-	-v /tmp/.X11-unix:/tmp/.X11-unix \
-	-e DISPLAY=unix$DISPLAY \
-	--device /dev/snd:/dev/snd \
-	-v $HOME/.spotify/config:/home/spotify/.config/spotify \
-	-v $HOME/.spotify/cache:/home/spotify/spotify \
-	--name spotify \
-	custom/spotify
+    del_stopped spotify
+    docker run --rm -it -d \
+        -v /etc/localtime:/etc/localtime:ro \
+        -v /tmp/.X11-unix:/tmp/.X11-unix \
+        -e DISPLAY=$DISPLAY \
+        --device /dev/snd \
+        --device /dev/dri \
+        -v $HOME/.spotify/config:/home/spotify/.config/spotify \
+        -v $HOME/.spotify/cache:/home/spotify/spotify \
+        -v /run/user/1000/pulse:/run/user/1000/pulse \
+        -e PULSE_SERVER=unix:/run/user/1000/pulse/native \
+        --name spotify \
+        --group-add $(getent group audio | cut -d: -f3) \
+        custom/spotify "$@"
+}
+
+stop_slack(){
+    xhost -local:root
+    del_stopped slack
 }
 
 custom_slack(){
-	del_stopped custom_slack
-	docker run -d --rm -it \
-		-v /etc/localtime:/etc/localtime:ro \
-		-v /tmp/.X11-unix:/tmp/.X11-unix \
-		-e DISPLAY=unix$DISPLAY \
-		--device /dev/snd \
-		--device /dev/dri \
-		--group-add audio \
-		-v "${HOME}/.slack:/root/.config/Slack" \
-		--ipc="host" \
-		--name slack \
-		custom/slack
+    stop_slack
+    xhost +local:root
+    docker run -d --rm -it \
+        -v /etc/localtime:/etc/localtime:ro \
+        -v /tmp/.X11-unix:/tmp/.X11-unix \
+        -e DISPLAY=$DISPLAY \
+        --device /dev/snd \
+        --device /dev/dri \
+        --group-add audio \
+        -v "${HOME}/.slack:/root/.config/Slack" \
+        --ipc="host" \
+        --name slack \
+        custom/slack 
+}
+
+custom_atom(){
+    docker run -it --rm -d -v /tmp/.X11-unix:/tmp/.X11-unix \
+        -e DISPLAY=unix$DISPLAY \
+        -v $1 \
+        custom/atom
 }
 
 custom_gzserver(){
-    docker run -d --rm -it \
-    --name=gzserver \
-    custom/gazeboserver
+    docker run --rm \
+    -it \
+    --user="3000:3000" \
+    -v ~/Desktop/gazeborun:/custom \
+    custom/gzserver "--default" /custom/resources/sim/worlds/rtos.world --verbose
+    # -d \
+    #custom/gzserver
+    #--name=gzserver \
+    #custom/gzserver /bin/bash
+    #--user=$(id -u $(whoami)) \
+
 }
 
 custom_gzclient(){
-    del_stopped custom_gzclient
+    del_stopped gazeboclient
     xhost +local:root
     docker run --rm -it \
-	-v /etc/localtime:/etc/localtime:ro \
-	-v "/tmp/.X11-unix:/tmp/.X11-unix:rw" \
-	-e DISPLAY=unix$DISPLAY \
-	--name gazeboclient \
-	custom/gazeboclient
-
+    -v /etc/localtime:/etc/localtime:ro \
+    -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+    -e DISPLAY=$DISPLAY \
+    --name gazeboclient \
+    custom/gazeboclient
 }
