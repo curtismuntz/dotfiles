@@ -1,6 +1,6 @@
 # Path to your oh-my-zsh installation.
 USERNAME=`whoami`
-export ZSH=/home/$USERNAME/murt/.oh-my-zsh
+export ZSH=/home/$USERNAME/.oh-my-zsh
 
 
 # Set name of the theme to load.
