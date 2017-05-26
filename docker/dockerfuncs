@@ -36,30 +36,30 @@ relies_on(){
 
 custom_zim(){
     del_stopped zim
-    docker run -it --rm -d \
+    docker run --rm -it -d \
        -e DISPLAY=$DISPLAY \
        -v /tmp/.X11-unix:/tmp/.X11-unix \
-       -v $HOME/murt/Notes:/home/curtis/Notebooks/Notes \
-       -v $HOME/Pictures/wiki:/home/curtis/Pictures/wiki \
+       -v $HOME/Documents/Notebooks/Notes:/home/curtis/Notebooks/Notes \
+       -v $HOME/Pictures:/home/curtis/Pictures \
        --name zim \
        custom/zim "$@"
 }
 
 custom_spotify(){
     del_stopped spotify
-    docker run --rm -it -d \
+    docker run --rm -d \
         -v /etc/localtime:/etc/localtime:ro \
         -v /tmp/.X11-unix:/tmp/.X11-unix \
         -e DISPLAY=$DISPLAY \
         --device /dev/snd \
-        --device /dev/dri \
         -v $HOME/.spotify/config:/home/spotify/.config/spotify \
         -v $HOME/.spotify/cache:/home/spotify/spotify \
         -v /run/user/1000/pulse:/run/user/1000/pulse \
         -e PULSE_SERVER=unix:/run/user/1000/pulse/native \
         --name spotify \
-        --group-add $(getent group audio | cut -d: -f3) \
         custom/spotify "$@"
+        #--device /dev/dri \
+        #--group-add $(getent group audio | cut -d: -f3) \
 }
 
 stop_slack(){
