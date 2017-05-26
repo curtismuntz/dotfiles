@@ -84,19 +84,6 @@ fi
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-# Source all my shiiiiiit
-if [ -f ~/.environment ]; then source ~/.environment; fi
-if [ -f ~/.aliases ]; then source ~/.aliases; fi
-if [ -f ~/.devpaths ]; then source ~/.devpaths; fi
-if [ -f ~/.dockerfuncs ]; then source ~/.dockerfuncs; fi
-if [ -f ~/.work_rc ]; then source ~/.work_rc; fi
-
-
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -109,5 +96,46 @@ if ! shopt -oq posix; then
 fi
 
 
+
+#!/bin/sh
+# This script creates monthly backups of the bash history file. Make sure you have
+# HISTSIZE set to large number (more than number of commands you can type in every
+# month). It keeps last 200 commands when it "rotates" history file every month.
+# Typical usage in a bash profile:
+#
+# HISTSIZE=90000
+# source ~/bin/history-backup
+#
+# And to search whole history use:
+# grep xyz -h --color ~/.bash_history.*
+#
+
+KEEP=200
+BASH_HIST=~/.bash_history
+BACKUP=$BASH_HIST.$(date +%y%m)
+
+if [ -s "$BASH_HIST" -a "$BASH_HIST" -nt "$BACKUP" ]; then
+  # history file is newer then backup
+  if [[ -f $BACKUP ]]; then
+    # there is already a backup
+    cp -f $BASH_HIST $BACKUP
+  else
+    # create new backup, leave last few commands and reinitialize
+    mv -f $BASH_HIST $BACKUP
+    tail -n$KEEP $BACKUP > $BASH_HIST
+    history -r
+  fi
+fi
+
+
+
 # Toggle caps lock
 #/usr/bin/setxkbmap -option "caps:swapescape"
+
+
+# Source all my shiiiiiit
+if [ -f ~/.environment ]; then source ~/.environment; fi
+if [ -f ~/.aliases ]; then source ~/.aliases; fi
+if [ -f ~/.devpaths ]; then source ~/.devpaths; fi
+if [ -f ~/.dockerfuncs ]; then source ~/.dockerfuncs; fi
+if [ -f ~/.work_rc ]; then source ~/.work_rc; fi
