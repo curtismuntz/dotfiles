@@ -1,4 +1,5 @@
 build --verbose_failures 
 build --curses yes --color yes --announce_rc 
-build --jobs 100 --local_resources 4096,2.0,1.0 
-build --copt=-fdiagnostics-color=always -c opt
+#build --jobs 100 --local_resources 4096,2.0,1.0 
+#build --copt=-fdiagnostics-color=always 
+#build -c opt
