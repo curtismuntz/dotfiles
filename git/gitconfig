@@ -10,4 +10,6 @@
 	email = cmuntz@outlook.com
 	name = murt
 [push]
-	default = matching
+	default = simple
+[core]
+	editor = vim
