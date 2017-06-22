@@ -60,6 +60,7 @@ custom_spotify(){
         custom/spotify "$@"
         #--device /dev/dri \
         #--group-add $(getent group audio | cut -d: -f3) \
+    cat ~/Desktop/pw.md
 }
 
 stop_slack(){
@@ -80,7 +81,7 @@ custom_slack(){
         -v "${HOME}/.slack:/root/.config/Slack" \
         --ipc="host" \
         --name slack \
-        custom/slack 
+        custom/slack
 }
 
 custom_atom(){
@@ -113,4 +114,11 @@ custom_gzclient(){
     -e DISPLAY=$DISPLAY \
     --name gazeboclient \
     custom/gazeboclient
+}
+
+jupyter_notebook(){
+  docker run -it --rm \
+  -p 8888:8888 \
+  -v ~/Documents/ipynb:/home/jovyan/work \
+  jupyter/scipy-notebook
 }
