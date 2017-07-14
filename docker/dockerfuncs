@@ -94,15 +94,13 @@ custom_atom(){
 custom_gzserver(){
     docker run --rm \
     -it \
-    --user="3000:3000" \
+    --user=$(id -u $(whoami)) \
     -v ~/Desktop/gazeborun:/custom \
     custom/gzserver "--default" /custom/resources/sim/worlds/rtos.world --verbose
     # -d \
     #custom/gzserver
     #--name=gzserver \
     #custom/gzserver /bin/bash
-    #--user=$(id -u $(whoami)) \
-
 }
 
 custom_gzclient(){
