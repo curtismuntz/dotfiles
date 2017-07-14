@@ -14,7 +14,13 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
+alias git_delete_merged='git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d'
 
 function cd {
     builtin cd "$@" && tree -L 1
+}
+
+function murtip () {
+  local ip_rt=$(ip route get 8.8.8.8 | head -1 | cut -d' ' -f8)
+  echo $ip_rt
 }
