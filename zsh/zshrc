@@ -59,3 +59,9 @@ if [ -f ~/.work_rc ]; then source ~/.work_rc; fi
 #/usr/bin/setxkbmap -option "caps:swapescape"
 
 alias nmap='noglob nmap'
+
+# BAZEL AUTOCOMPLETE
+# This way the completion script does not have to parse Bazel's options
+# repeatedly.  The directory in cache-path must be created manually.
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/murt/dotfiles/zsh/cache

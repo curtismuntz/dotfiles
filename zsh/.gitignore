@@ -1,0 +1,3 @@
+cache/*
+# we want to see the cache folder in git...
+!cache/.gitkeep 
