@@ -33,17 +33,19 @@ ENV HOME /home/user
 RUN useradd --create-home --home-dir $HOME user \
 	&& chown -R user:user $HOME
 
+COPY id_rsa $HOME/.ssh/id_rsa
+COPY id_rsa.pub $HOME/.ssh/id_rsa.pub
+RUN chown -R user $HOME/.ssh/
 
 ######################
 # install my shiiiiit
 ######################
 USER user
-RUN mkdir $HOME/.ssh/
-COPY id_rsa $HOME/.ssh/id_rsa
-COPY id_rsa.pub $HOME/.ssh/id_rsa.pub
+
 RUN touch $HOME/.ssh/known_hosts
 # Add github key
 RUN ssh-keyscan github.com >> $HOME/.ssh/known_hosts
+
 # clone dotfiles
 RUN git clone git@github.com:curtismuntz/dotfiles.git $HOME/murt/dotfiles
 

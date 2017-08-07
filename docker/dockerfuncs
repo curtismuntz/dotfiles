@@ -80,3 +80,14 @@ jupyter_notebook(){
   -v ~/Documents/ipynb:/home/jovyan/work \
   jupyter/scipy-notebook
 }
+
+murtbuntu(){
+  docker run -it --rm \
+    murtbuntu
+}
+
+winbuntu(){
+  docker run -it --rm \
+    -v ~/sbox:/home/user/sbox/
+    murtbuntu
+}
