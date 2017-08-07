@@ -9,8 +9,10 @@ trap finish EXIT INT TERM
 
 force_symlink_arg1TARGET_arg2SOURCE() {
 	if ~ [ -f $1 ]; then
+		echo "MURT IS HERE"
 		ln -s $2 $1
 	else
+		echo "REMOVING OLD RC $1, LINKING $2"
 		rm $1
 		ln -s $1 $2
 	fi
@@ -18,13 +20,13 @@ force_symlink_arg1TARGET_arg2SOURCE() {
 
 echo "this will set up dot files to their symlinks"
 #DIR=`pwd`
-DIR = $HOME/dotfiles
-force_symlink_arg1TARGET_arg2SOURCE $HOME/.bashrc $DIR/bash/bashrc
-force_symlink_arg1TARGET_arg2SOURCE $HOME/.zshrc $DIR/zsh/zshrc
-force_symlink_arg1TARGET_arg2SOURCE $HOME/.vimrc $DIR/vim/vimrc
-force_symlink_arg1TARGET_arg2SOURCE $HOME/.gitconfig $DIR/git/gitconfig
-force_symlink_arg1TARGET_arg2SOURCE $HOME/.gitconfig $DIR/git/gitconfig
-force_symlink_arg1TARGET_arg2SOURCE $HOME/.aliases $DIR/bash/aliases
+DIR=$HOME/dotfiles
+force_symlink_arg1TARGET_arg2SOURCE "$HOME/.bashrc" "$DIR/bash/bashrc"
+force_symlink_arg1TARGET_arg2SOURCE "$HOME/.zshrc" "$DIR/zsh/zshrc"
+force_symlink_arg1TARGET_arg2SOURCE "$HOME/.vimrc" "$DIR/vim/vimrc"
+force_symlink_arg1TARGET_arg2SOURCE "$HOME/.gitconfig" "$DIR/git/gitconfig"
+force_symlink_arg1TARGET_arg2SOURCE "$HOME/.gitconfig" "$DIR/git/gitconfig"
+force_symlink_arg1TARGET_arg2SOURCE "$HOME/.aliases" "$DIR/bash/aliases"
 
 if ! [ -f "$HOME/.environment" ]; then ln -s $DIR/bash/environment ~/.environment; fi
 if ! [ -f "$HOME/.devpaths" ]; then ln -s $DIR/bash/devpaths ~/.devpaths; fi

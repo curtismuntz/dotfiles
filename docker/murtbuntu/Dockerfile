@@ -1,7 +1,11 @@
 FROM ubuntu:16.04
 MAINTAINER Curtis Muntz <cmuntz@outlook.com>
 
-RUN apt-get update && apt-get install -y \
+# update ubuntu
+RUN apt-get update && apt-get upgrade -y --no-install-recommends
+
+# usability installs
+RUN apt-get install -y \
 	software-properties-common \
 	--no-install-recommends && \
 	apt-get update && \
@@ -14,26 +18,43 @@ RUN apt-get update && apt-get install -y \
 	tree \
 	nmap \
 	openssh-client \
-	--no-install-recommends \
-	&& rm -rf /var/lib/apt/lists/*
+	vim \
+	--no-install-recommends
 
+# cleanup from all the apt stuff...
+RUN rm -rf /var/lib/apt/lists/*
+
+
+# change shell to zsh
 RUN chsh -s $(which zsh)
 
+# create a user for us to fuk wit
 ENV HOME /home/user
 RUN useradd --create-home --home-dir $HOME user \
 	&& chown -R user:user $HOME
 
+######################
 # install my shiiiiit
-ADD id_rsa /root/.ssh/id_rsa
-RUN git clone git@github.com:curtismuntz/dotfiles.git
-RUN /usr/bin/setxkbmap -option "caps:swapescape"
-RUN bash ~/dotfiles/setup.sh
+######################
+USER user
+RUN mkdir $HOME/.ssh/
+COPY id_rsa $HOME/.ssh/id_rsa
+COPY id_rsa.pub $HOME/.ssh/id_rsa.pub
+RUN touch $HOME/.ssh/known_hosts
+# Add github key
+RUN ssh-keyscan github.com >> $HOME/.ssh/known_hosts
+# clone dotfiles
+RUN git clone git@github.com:curtismuntz/dotfiles.git $HOME/murt/dotfiles
 
+# run dotfile setup
+RUN bash ~/murt/dotfiles/setup.sh
+ENV ZSH_CUSTOM $HOME/.oh-my-zsh/custom
 RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
 RUN git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
 RUN git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
-COPY ./simple_zshrc $HOME/.zshrc
+# make a sandbox
+RUN mkdir $HOME/sbox
 
 WORKDIR $HOME
 USER user
