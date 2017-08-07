@@ -23,20 +23,10 @@ del_stopped(){
     fi
 }
 
-relies_on(){
-    for container in "$@"; do
-        local state
-        state=$(docker inspect --format "{{.State.Running}}" "$container" 2>/dev/null)
-        if [[ "$state" == "false" ]] || [[ "$state" == "" ]]; then
-            echo "$container is not running, starting it for you."
-            $container
-        fi
-    done
-}
-
 custom_zim(){
     del_stopped zim
     docker run --rm -it -d \
+       --user=$(id -u $(whoami)) \
        -e DISPLAY=$DISPLAY \
        -v /tmp/.X11-unix:/tmp/.X11-unix \
        -v $HOME/Documents/Notebooks/Notes:/home/curtis/Notebooks/Notes \
@@ -83,36 +73,6 @@ stop_slack(){
 #         --name slack \
 #        custom/slack
 #}
-
-custom_atom(){
-    docker run -it --rm -d -v /tmp/.X11-unix:/tmp/.X11-unix \
-        -e DISPLAY=unix$DISPLAY \
-        -v $1 \
-        custom/atom
-}
-
-custom_gzserver(){
-    docker run --rm \
-    -it \
-    --user=$(id -u $(whoami)) \
-    -v ~/Desktop/gazeborun:/custom \
-    custom/gzserver "--default" /custom/resources/sim/worlds/rtos.world --verbose
-    # -d \
-    #custom/gzserver
-    #--name=gzserver \
-    #custom/gzserver /bin/bash
-}
-
-custom_gzclient(){
-    del_stopped gazeboclient
-    xhost +local:root
-    docker run --rm -it \
-    -v /etc/localtime:/etc/localtime:ro \
-    -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" \
-    -e DISPLAY=$DISPLAY \
-    --name gazeboclient \
-    custom/gazeboclient
-}
 
 jupyter_notebook(){
   docker run -it --rm \

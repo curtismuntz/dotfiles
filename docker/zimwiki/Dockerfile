@@ -1,9 +1,9 @@
 #modified from http://fabiorehm.com/blog/2014/09/11/running-gui-apps-with-docker/
-# 
+#
 #
 #
 # Run with:
-#   docker run -it --rm \                                                                                                                                       
+#   docker run -it --rm \
 #       -e DISPLAY=$DISPLAY \
 #       -v /tmp/.X11-unix:/tmp/.X11-unix \
 #       -v /home/murt/Desktop/tmp/zimtest:/home/developer/Notes \
@@ -20,7 +20,7 @@ RUN apt-get install -y --no-install-recommends \
         locales \
         python-gtksourceview2 \
         graphviz \
-        ditaa 
+        ditaa
 
 # Set the locale
 RUN apt-get install -y --no-install-recommends \
@@ -55,7 +55,7 @@ RUN export uid=1000 gid=1000 && \
 
 
 # run it
-USER curtis 
+USER curtis
 ENV HOME /home/curtis
 CMD /usr/bin/zim --standalone
 #CMD /bin/bash

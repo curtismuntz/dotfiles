@@ -1,0 +1,48 @@
+# Path to your oh-my-zsh installation.
+USERNAME=`whoami`
+export ZSH=/home/$USERNAME/.oh-my-zsh
+
+
+# Set name of the theme to load.
+# Look in ~/.oh-my-zsh/themes/
+# Optionally, if you set this to "random", it'll load a random theme each
+# time that oh-my-zsh is loaded.
+#ZSH_THEME="nicoulaj"
+#ZSH_THEME="geometry"
+#ZSH_THEME="fletcherm"
+#ZSH_THEME="random"
+ZSH_THEME="gallois"
+#ZSH_THEME="muse"
+#ZSH_THEME="geometry"
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion. Case
+# sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+plugins=(z git mercurial zsh-autosuggestions autojump command-not-found python pip github gnu-utils history-substring-search zsh-syntax-highlighting colored-man-pages catimg docker)
+
+bindkey '^ ' autosuggest-accept
+
+
+source $ZSH/oh-my-zsh.sh
+
+
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=6"
+setopt HIST_IGNORE_SPACE
+
+if [ -f ~/.environment ]; then source ~/.environment; fi
+if [ -f ~/.aliases ]; then source ~/.aliases; fi
+if [ -f ~/.devpaths ]; then source ~/.devpaths; fi
+if [ -f ~/.dockerfuncs ]; then source ~/.dockerfuncs; fi
+if [ -f ~/.work_rc ]; then source ~/.work_rc; fi
+
+# Toggle caps lock
+#/usr/bin/setxkbmap -option "caps:swapescape"
+
+alias nmap='noglob nmap'
