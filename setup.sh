@@ -19,7 +19,7 @@ force_symlink_arg1TARGET_arg2SOURCE() {
 
 echo "this will set up dot files to their symlinks"
 #DIR=`pwd`
-DIR=$HOME/dotfiles
+DIR=$HOME/murt/dotfiles
 echo "using DIR=$DIR"
 force_symlink_arg1TARGET_arg2SOURCE "$HOME/.bashrc" "$DIR/bash/bashrc"
 force_symlink_arg1TARGET_arg2SOURCE "$HOME/.zshrc" "$DIR/zsh/zshrc"
