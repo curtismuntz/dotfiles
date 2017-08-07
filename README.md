@@ -3,6 +3,16 @@ required software installed:
   * oh-my-zsh
   * tree
 
+```!bash
+#instsall deps
+sudo apt-get install tree zsh git curl
+#install oh my zsh
+
+#install mods
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone 
+```
+
 # dotfiles
 version control for my dotfiles
 

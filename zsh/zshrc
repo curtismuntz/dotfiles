@@ -11,7 +11,8 @@ export ZSH=/home/$USERNAME/.oh-my-zsh
 #ZSH_THEME="geometry"
 #ZSH_THEME="fletcherm"
 #ZSH_THEME="random"
-ZSH_THEME="gallois"
+#ZSH_THEME="gallois"
+ZSH_THEME="agnoster"
 #ZSH_THEME="muse"
 #ZSH_THEME="geometry"
 
