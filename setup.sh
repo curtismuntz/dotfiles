@@ -9,7 +9,6 @@ trap finish EXIT INT TERM
 
 force_symlink_arg1TARGET_arg2SOURCE() {
 	if ~ [ -f $1 ]; then
-		echo "MURT IS HERE"
 		ln -s $2 $1
 	else
 		echo "REMOVING OLD RC $1, LINKING $2"
@@ -21,6 +20,7 @@ force_symlink_arg1TARGET_arg2SOURCE() {
 echo "this will set up dot files to their symlinks"
 #DIR=`pwd`
 DIR=$HOME/dotfiles
+echo "using DIR=$DIR"
 force_symlink_arg1TARGET_arg2SOURCE "$HOME/.bashrc" "$DIR/bash/bashrc"
 force_symlink_arg1TARGET_arg2SOURCE "$HOME/.zshrc" "$DIR/zsh/zshrc"
 force_symlink_arg1TARGET_arg2SOURCE "$HOME/.vimrc" "$DIR/vim/vimrc"
