@@ -19,19 +19,19 @@ force_symlink_arg1TARGET_argLINKNAME() {
 
 echo "this will set up dot files to their symlinks"
 #DIR=`pwd`
-DIR=~/murt/dotfiles
+DIR=$HOME/murt/dotfiles
 echo "using DIR=$DIR"
-force_symlink_arg1TARGET_argLINKNAME "$DIR/bash/bashrc" "~/.bashrc"
-force_symlink_arg1TARGET_argLINKNAME "$DIR/zsh/zshrc" "~/.zshrc"
-force_symlink_arg1TARGET_argLINKNAME "$DIR/vim/vimrc" "~/.vimrc"
-force_symlink_arg1TARGET_argLINKNAME "$DIR/git/gitconfig" "~/.gitconfig"
-force_symlink_arg1TARGET_argLINKNAME "$DIR/git/gitconfig" "~/.gitconfig"
-force_symlink_arg1TARGET_argLINKNAME "$DIR/bash/aliases" "~/.aliases"
+force_symlink_arg1TARGET_argLINKNAME "$DIR/bash/bashrc" "$HOME/.bashrc"
+force_symlink_arg1TARGET_argLINKNAME "$DIR/zsh/zshrc" "$HOME/.zshrc"
+force_symlink_arg1TARGET_argLINKNAME "$DIR/vim/vimrc" "$HOME/.vimrc"
+force_symlink_arg1TARGET_argLINKNAME "$DIR/git/gitconfig" "$HOME/.gitconfig"
+force_symlink_arg1TARGET_argLINKNAME "$DIR/git/gitconfig" "$HOME/.gitconfig"
+force_symlink_arg1TARGET_argLINKNAME "$DIR/bash/aliases" "$HOME/.aliases"
 
-if ! [ -f "~/.environment" ]; then ln -s $DIR/bash/environment ~/.environment; fi
-if ! [ -f "~/.devpaths" ]; then ln -s $DIR/bash/devpaths ~/.devpaths; fi
-if ! [ -f "~/.dockerfuncs" ]; then ln -s $DIR/docker/dockerfuncs ~/.dockerfuncs; fi
-if ! [ -f "~/.bazelrc" ]; then ln -s $DIR/bazel/bazelrc ~/.bazelrc; fi
+if ! [ -f "$HOME/.environment" ]; then ln -s $DIR/bash/environment $HOME/.environment; fi
+if ! [ -f "$HOME/.devpaths" ]; then ln -s $DIR/bash/devpaths $HOME/.devpaths; fi
+if ! [ -f "$HOME/.dockerfuncs" ]; then ln -s $DIR/docker/dockerfuncs $HOME/.dockerfuncs; fi
+if ! [ -f "$HOME/.bazelrc" ]; then ln -s $DIR/bazel/bazelrc $HOME/.bazelrc; fi
 
 # Make a directory for vim persistent undo
-mkdir -p ~/.undodir
+mkdir -p $HOME/.undodir
