@@ -13,5 +13,8 @@ version control for my dotfiles
 # zshrc
 I use the following non-auto-installed pluggins via oh-my-zsh:
 
+# docker
+Some nifty docker images can be found here (spotify/slack)
+
 * zsh-autosuggestion
 * zsh-syntax-highlighting
