@@ -8,7 +8,7 @@ finish() {
 trap finish EXIT INT TERM
 
 force_symlink_arg1TARGET_arg2SOURCE() {
-	if ~ [ -f $1 ]; then
+	if ! [ -f $1 ]; then
 		ln -s $2 $1
 	else
 		echo "REMOVING OLD RC $1, LINKING $2"
