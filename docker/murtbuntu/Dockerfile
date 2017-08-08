@@ -10,6 +10,7 @@ RUN apt-get install -y \
 	--no-install-recommends && \
 	apt-get update && \
 	apt-get install -y \
+  iputils-ping \
 	byobu \
   git \
 	curl \
