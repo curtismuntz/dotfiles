@@ -37,6 +37,7 @@ RUN useradd --create-home --home-dir $HOME user \
 COPY id_rsa $HOME/.ssh/id_rsa
 COPY id_rsa.pub $HOME/.ssh/id_rsa.pub
 RUN chown -R user $HOME/.ssh/
+RUN chmod 0400 $HOME/.ssh/id_rsa
 
 ######################
 # install my shiiiiit
