@@ -12,8 +12,8 @@ export ZSH=/home/$USERNAME/.oh-my-zsh
 #ZSH_THEME="fletcherm"
 #ZSH_THEME="random"
 #ZSH_THEME="gallois"
-ZSH_THEME="agnoster"
-#ZSH_THEME="muse"
+#ZSH_THEME="agnoster"
+ZSH_THEME="muse"
 #ZSH_THEME="geometry"
 
 # Uncomment the following line to use case-sensitive completion.

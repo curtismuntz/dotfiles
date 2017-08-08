@@ -51,12 +51,14 @@ RUN ssh-keyscan github.com >> $HOME/.ssh/known_hosts
 # clone dotfiles
 RUN git clone git@github.com:curtismuntz/dotfiles.git $HOME/murt/dotfiles
 
-# run dotfile setup
-RUN bash ~/murt/dotfiles/setup.sh
 ENV ZSH_CUSTOM $HOME/.oh-my-zsh/custom
 RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
 RUN git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
 RUN git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
+# run dotfile setup
+RUN bash ~/murt/dotfiles/setup.sh
+
 
 # make a sandbox
 RUN mkdir $HOME/sbox
