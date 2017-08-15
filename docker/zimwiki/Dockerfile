@@ -1,7 +1,3 @@
-#modified from http://fabiorehm.com/blog/2014/09/11/running-gui-apps-with-docker/
-#
-#
-#
 # Run with:
 #   docker run -it --rm \
 #       -e DISPLAY=$DISPLAY \
@@ -11,6 +7,7 @@
 
 #FROM debian:stretch
 FROM ubuntu:xenial
+MAINTAINER Curtis Muntz <cmuntz@outlook.com>
 
 RUN apt-get update && apt-get upgrade -y --no-install-recommends
 
