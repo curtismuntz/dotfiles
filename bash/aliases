@@ -16,11 +16,13 @@ alias egrep='egrep --color=auto'
 
 alias git_delete_merged='git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d'
 
+# call tree when cd s called
 function cd {
     builtin cd "$@" && tree -L 1
 }
 
-
+# echos the ip address that is used to get to the internet. Note that this might fail in the case
+# that multiple addresses can get to 8.8.8.8
 function murtip () {
   local ip_rt=$(ip route get 8.8.8.8 | head -1 | cut -d' ' -f8)
   echo $ip_rt

@@ -46,13 +46,7 @@ RUN export uid=1000 gid=1000 && \
     mkdir -p /home/curtis/.config/zim && \
     chown ${uid}:${gid} -R /home/curtis
 
-
-
-
-
-
 # run it
 USER curtis
 ENV HOME /home/curtis
 CMD /usr/bin/zim --standalone
-#CMD /bin/bash

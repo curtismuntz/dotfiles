@@ -2,7 +2,7 @@
 # Bash wrappers for docker run commands
 alias dl='docker ps -l -q'
 
-dcleanup(){
+dcleanup() {
     local containers
     containers=( $(docker ps -aq 2>/dev/null) )
     docker rm "${containers[@]}" 2>/dev/null
@@ -14,7 +14,7 @@ dcleanup(){
     docker rmi "${images[@]}" 2>/dev/null
 }
 
-del_stopped(){
+del_stopped() {
     local name=$1
     local state
     state=$(docker inspect --format "{{.State.Running}}" "$name" 2>/dev/null)
@@ -23,19 +23,18 @@ del_stopped(){
     fi
 }
 
-custom_zim(){
+custom_zim() {
     del_stopped zim
     docker run --rm -it -d \
        --user=$(id -u $(whoami)) \
        -e DISPLAY=$DISPLAY \
        -v /tmp/.X11-unix:/tmp/.X11-unix \
        -v $HOME/Documents/Notebooks/Notes:/home/curtis/Notebooks/Notes \
-       -v $HOME/Pictures:/home/curtis/Pictures \
        --name zim \
        custom/zim "$@"
 }
 
-custom_spotify(){
+custom_spotify() {
     del_stopped spotify
     docker run --rm -d \
         -v /etc/localtime:/etc/localtime:ro \
@@ -53,12 +52,12 @@ custom_spotify(){
     cat ~/Desktop/pw.md
 }
 
-stop_slack(){
-    xhost -local:root
-    del_stopped slack
-}
-
-# custom_slack(){
+# stop_slack() {
+#     xhost -local:root
+#     del_stopped slack
+# }
+#
+# custom_slack() {
 #     stop_slack
 #     xhost +local:root
 #     docker run -d --rm -it \
@@ -74,19 +73,19 @@ stop_slack(){
 #        custom/slack
 #}
 
-jupyter_notebook(){
+jupyter_notebook() {
   docker run -it --rm \
   -p 8888:8888 \
   -v ~/Documents/ipynb:/home/jovyan/work \
   jupyter/scipy-notebook
 }
 
-murtbuntu(){
+murtbuntu() {
   docker run -it --rm \
     murtbuntu
 }
 
-winbuntu(){
+winbuntu() {
   docker run -it --rm \
     -v ~/sbox:/home/user/sbox/
     murtbuntu
