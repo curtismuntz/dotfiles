@@ -7,7 +7,7 @@ An example can be seen in the dockerfile for murtbuntu for how to set up my work
 * installer for all things
 
 
-# installer
+# potential installer?
 * for the stuff i use to work properly:
   * zsh
   * oh-my-zsh
