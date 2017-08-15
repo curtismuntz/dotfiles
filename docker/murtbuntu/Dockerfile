@@ -45,6 +45,7 @@ RUN chmod 0400 $HOME/.ssh/id_rsa
 USER user
 
 RUN touch $HOME/.ssh/known_hosts
+RUN touch $HOME/.z
 
 # Add github key
 RUN ssh-keyscan github.com >> $HOME/.ssh/known_hosts
