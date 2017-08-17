@@ -1,4 +1,4 @@
-# This vimrc is based off of https://github.com/kgreenek/vimrc
+" This vimrc is based off of https://github.com/kgreenek/vimrc
 set laststatus=2
 set nocompatible
 
