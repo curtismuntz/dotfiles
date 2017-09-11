@@ -1,3 +1,4 @@
+" Most of this file is based off of https://github.com/kgreenek/vimrc
 set laststatus=2
 set nocompatible
 
@@ -38,7 +39,10 @@ let g:cpp_experimental_simple_template_highlight = 1
 let g:clang_format#code_style="google"
 let g:clang_format#style_options = {
   \ "AllowShortIfStatementsOnASingleLine" : "true",
-  \ "Standard" : "C++11" }
+  \ "DerivePointerAlignment" : "false",
+  \ "PointerAlignment" : "Right",
+  \ "Standard" : "C++11",
+  \ "ColumnLimit" : "100" }
 autocmd FileType c,cpp,objc nnoremap <C-k> :<C-u>ClangFormat<CR>
 autocmd FileType c,cpp,objc vnoremap <C-k> :ClangFormat<CR>
 
@@ -111,3 +115,22 @@ set hidden
 " next buffer "bn".
 map <C-h> :bp<CR>
 map <C-l> :bn<CR>
+
+"
+set undofile
+set undolevels=1000
+set undoreload=10000
+
+" Put plugins and dictionaries in this dir (also on Windows)
+let vimDir = '$HOME/.vim'
+let &runtimepath.=','.vimDir
+
+" Keep undo history across sessions by storing it in a file
+if has('persistent_undo')
+    let myUndoDir = expand(vimDir . '/undodir')
+    " Create dirs
+    call system('mkdir ' . vimDir)
+    call system('mkdir ' . myUndoDir)
+    let &undodir = myUndoDir
+    set undofile
+endif
