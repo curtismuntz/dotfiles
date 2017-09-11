@@ -3,7 +3,7 @@
 #       -e DISPLAY=$DISPLAY \
 #       -v /tmp/.X11-unix:/tmp/.X11-unix \
 #       -v /home/murt/Desktop/tmp/zimtest:/home/developer/Notes \
-#        zim_wiki_tst
+#        zim_wiki
 
 #FROM debian:stretch
 FROM ubuntu:xenial

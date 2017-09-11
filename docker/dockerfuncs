@@ -52,26 +52,26 @@ custom_spotify() {
     cat ~/Desktop/pw.md
 }
 
-# stop_slack() {
-#     xhost -local:root
-#     del_stopped slack
-# }
-#
-# custom_slack() {
-#     stop_slack
-#     xhost +local:root
-#     docker run -d --rm -it \
-#         -v /etc/localtime:/etc/localtime:ro \
-#         -v /tmp/.X11-unix:/tmp/.X11-unix \
-#         -e DISPLAY=$DISPLAY \
-#         --device /dev/snd \
-#         --device /dev/dri \
-#         --group-add audio \
-#         -v "${HOME}/.slack:/root/.config/Slack" \
-#         --ipc="host" \
-#         --name slack \
-#        custom/slack
-#}
+stop_slack() {
+    xhost -local:root
+    del_stopped slack
+}
+
+custom_slack() {
+    stop_slack
+    xhost +local:root
+    docker run -d --rm -it \
+        -v /etc/localtime:/etc/localtime:ro \
+        -v /tmp/.X11-unix:/tmp/.X11-unix \
+        -e DISPLAY=$DISPLAY \
+        --device /dev/snd \
+        --device /dev/dri \
+        --group-add audio \
+        -v "${HOME}/.slack:/root/.config/Slack" \
+        --ipc="host" \
+        --name slack \
+       custom/slack
+}
 
 jupyter_notebook() {
   docker run -it --rm \
@@ -90,3 +90,27 @@ winbuntu() {
     -v ~/sbox:/home/user/sbox/
     murtbuntu
 }
+
+ros_ewok() {
+  docker run --rm -it \
+    --name ros_ewok \
+    murt/ewok_example
+}
+
+# +custom_gzserver(){
+#  +    docker run -d --rm -it \
+#  +    --name=gzserver \
+#  +    custom/gazeboserver
+#  +}
+#  +
+#  +custom_gzclient(){
+#  +    del_stopped custom_gzclient
+#  +    xhost +local:root
+#  +    docker run --rm -it \
+#  +	-v /etc/localtime:/etc/localtime:ro \
+#  +	-v "/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+#  +	-e DISPLAY=unix$DISPLAY \
+#  +	--name gazeboclient \
+#  +	custom/gazeboclient
+#  +
+#  +}

@@ -1,3 +1,5 @@
+# Devlopment environment for murtis or murtis like persons
+
 FROM ubuntu:16.04
 MAINTAINER Curtis Muntz <cmuntz@outlook.com>
 
@@ -12,7 +14,7 @@ RUN apt-get install -y \
 	apt-get install -y \
   iputils-ping \
 	byobu \
-  git \
+	git \
 	curl \
 	wget \
 	zsh \
@@ -20,6 +22,7 @@ RUN apt-get install -y \
 	nmap \
 	openssh-client \
 	vim \
+	sudo \
 	--no-install-recommends
 
 # cleanup from all the apt stuff...
@@ -32,7 +35,11 @@ RUN chsh -s $(which zsh)
 ENV HOME /home/user
 RUN useradd --create-home --home-dir $HOME user \
 	&& chown -R user:user $HOME
+# stupid password
+RUN echo "user:password" | chpasswd
+RUN usermod -aG sudo user
 
+# TODO: remove this step when I move dotfiles public
 # ssh keys
 COPY id_rsa $HOME/.ssh/id_rsa
 COPY id_rsa.pub $HOME/.ssh/id_rsa.pub
