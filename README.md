@@ -1,11 +1,11 @@
 # dotfiles
 An example can be seen in the dockerfile for murtbuntu for how to set up my work environment.
 
+
 # todo:
 * vundle
 * murtbuntu mounting scheme
 * installer for all things
-
 
 # potential installer?
 * for the stuff i use to work properly:
@@ -15,6 +15,7 @@ An example can be seen in the dockerfile for murtbuntu for how to set up my work
   * bazel
   * vim
   * git
+  * buildifier
 * extras
   * openssh-client
   * nmap
