@@ -4,3 +4,4 @@ build --copt=-fdiagnostics-color=always
 build --copt=--std=c++14
 #build --jobs 100 --local_resources 4096,2.0,1.0
 #build -c opt
+test --test_verbose_timeout_warnings
