@@ -5,7 +5,6 @@
 #       -v /home/murt/Desktop/tmp/zimtest:/home/developer/Notes \
 #        zim_wiki
 
-#FROM debian:stretch
 FROM ubuntu:xenial
 MAINTAINER Curtis Muntz <cmuntz@outlook.com>
 
@@ -19,7 +18,7 @@ RUN apt-get install -y --no-install-recommends \
         graphviz \
         ditaa
 
-# Set the locale
+# Set the locale (required for zim's calendar)
 RUN apt-get install -y --no-install-recommends \
         language-pack-en
 
@@ -30,9 +29,6 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 RUN dpkg-reconfigure locales
-
-# copy in zim prefs
-COPY preferences.conf /home/curtis/.config/zim/
 
 # Replace 1000 with your user / group id
 RUN export uid=1000 gid=1000 && \
@@ -45,6 +41,9 @@ RUN export uid=1000 gid=1000 && \
     mkdir -p /home/curtis/Pictures && \
     mkdir -p /home/curtis/.config/zim && \
     chown ${uid}:${gid} -R /home/curtis
+
+# copy in zim prefs
+COPY preferences.conf /home/curtis/.config/zim/
 
 # run it
 USER curtis
