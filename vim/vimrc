@@ -13,6 +13,7 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'rhysd/vim-clang-format'
+Plugin 'josuegaleas/jay'
 " Plugin 'Valloric/YouCompleteMe'
 " Plugin 'jeaye/color_coded'
 " Plugin 'rdnetto/YCM-Generator'
@@ -62,11 +63,12 @@ set tags=./tags,tags;$HOME
 " current line, and then paste it to another application.
 set clipboard=unnamedplus
 
-" Enable syntax highlighting.
-syntax on
 
-" This is the default theme used for "dark" terminals.
-colorscheme ron
+" Set terminal color to 256 (for terminator compatability)
+set t_Co=256
+syntax enable
+set background=dark
+colorscheme jay
 
 " Show line numbers.
 set number
