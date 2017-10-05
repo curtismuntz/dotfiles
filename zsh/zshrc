@@ -60,6 +60,7 @@ if [ -f ~/.work_rc ]; then source ~/.work_rc; fi
 #/usr/bin/setxkbmap -option "caps:swapescape"
 
 alias nmap='noglob nmap'
+alias calc='noglob calc'
 
 # BAZEL AUTOCOMPLETE
 # This way the completion script does not have to parse Bazel's options

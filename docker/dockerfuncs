@@ -31,7 +31,7 @@ custom_zim() {
        -v /tmp/.X11-unix:/tmp/.X11-unix \
        -v $HOME/Documents/Notebooks/Notes:/home/curtis/Notebooks/Notes \
        --name zim \
-       custom/zim "$@"
+       murtis/zimwiki "$@"
 }
 
 custom_spotify() {
@@ -46,7 +46,7 @@ custom_spotify() {
         -v /run/user/1000/pulse:/run/user/1000/pulse \
         -e PULSE_SERVER=unix:/run/user/1000/pulse/native \
         --name spotify \
-        custom/spotify "$@"
+        murtis/spotify "$@"
         #--device /dev/dri \
         #--group-add $(getent group audio | cut -d: -f3) \
     cat ~/Desktop/pw.md
@@ -70,7 +70,7 @@ custom_slack() {
         -v "${HOME}/.slack:/root/.config/Slack" \
         --ipc="host" \
         --name slack \
-       custom/slack
+       murtis/slack
 }
 
 jupyter_notebook() {
@@ -82,19 +82,19 @@ jupyter_notebook() {
 
 murtbuntu() {
   docker run -it --rm \
-    murtbuntu
+    murtis/murtbuntu
 }
 
 winbuntu() {
   docker run -it --rm \
     -v ~/sbox:/home/user/sbox/
-    murtbuntu
+    murtis/murtbuntu
 }
 
 ros_ewok() {
   docker run --rm -it \
     --name ros_ewok \
-    murt/ewok_example
+    murtis/ewok_example
 }
 
 # +custom_gzserver(){
