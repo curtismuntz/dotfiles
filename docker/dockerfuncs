@@ -82,12 +82,14 @@ jupyter_notebook() {
 
 murtbuntu() {
   docker run -it --rm \
+    -v ~/sbox:/home/user/sbox/ \
+    --network=MURTISWAS_HERE_bazeltest \
     murtis/murtbuntu
 }
 
 winbuntu() {
   docker run -it --rm \
-    -v ~/sbox:/home/user/sbox/
+    -v ~/sbox:/home/user/sbox/ \
     murtis/murtbuntu
 }
 

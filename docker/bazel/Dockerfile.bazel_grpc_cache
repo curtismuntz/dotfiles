@@ -1,0 +1,18 @@
+FROM murtis/bazel
+MAINTAINER Curtis Muntz <cmuntz@outlook.com>
+
+RUN apt-get update && apt-get install git -y
+
+RUN mkdir bazel
+RUN git clone https://github.com/bazelbuild/bazel.git bazel
+RUN apt-get remove git -y
+# cleanup from all the apt stuff...
+# TODO(murt): clear this thing whne doend etesting
+RUN apt-get install net-tools
+RUN rm -rf /var/lib/apt/lists/*
+
+RUN cd bazel && bazel build //src/tools/remote_worker
+RUN mkdir /app
+RUN cp -r /bazel/bazel-bin/src/tools/remote_worker/ /app/
+
+ENTRYPOINT ifconfig && /app/remote_worker/remote_worker --listen_port=8080 --debug true

@@ -1,6 +1,5 @@
 # Path to your oh-my-zsh installation.
-USERNAME=`whoami`
-export ZSH=/home/$USERNAME/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 
 
 # Set name of the theme to load.

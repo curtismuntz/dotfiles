@@ -4,7 +4,8 @@ FROM ubuntu:16.04
 MAINTAINER Curtis Muntz <cmuntz@outlook.com>
 
 # update ubuntu
-RUN apt-get update && apt-get upgrade -y --no-install-recommends
+#RUN apt-get update && apt-get upgrade -y --no-install-recommends
+RUN apt-get update 
 
 # usability installs
 RUN apt-get install -y \
@@ -24,6 +25,12 @@ RUN apt-get install -y \
 	vim \
 	sudo \
 	--no-install-recommends
+
+# install bazel
+RUN apt-get install openjdk-8-jdk -y
+RUN echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
+RUN curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
+RUN apt-get update && sudo apt-get install bazel -y
 
 # cleanup from all the apt stuff...
 RUN rm -rf /var/lib/apt/lists/*
