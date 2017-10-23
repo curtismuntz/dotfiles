@@ -2,9 +2,9 @@
 # remote options #
 ##################
 startup --host_jvm_args=-Dbazel.DigestFunction=SHA1
-#build --remote_cache=$BAZEL_CACHE_SERVER:8080
+#build --remote_cache=172.17.0.4:8085
+build --remote_cache=172.25.0.101:8085
 build --spawn_strategy=remote
-build --remote_cache=127.0.0.1:8089
 build --strategy=Javac=remote
 build --strategy=Closure=remote
 
@@ -15,6 +15,7 @@ build --verbose_failures
 build --curses yes --color yes --announce_rc
 build --copt=-fdiagnostics-color=always
 build --copt=--std=c++14
+build --incompatible_disallow_set_constructor=false
 #build --jobs 100 --local_resources 4096,2.0,1.0
 #build -c opt
 
@@ -27,3 +28,4 @@ clean --expunge_async
 # test #
 ########
 test --test_verbose_timeout_warnings
+test --incompatible_disallow_set_constructor=false
