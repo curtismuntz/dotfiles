@@ -20,10 +20,17 @@ RUN mkdir /usr/src/app
 COPY requirements.txt /usr/src/app/requirements.txt
 RUN pip3 install -r /usr/src/app/requirements.txt
 
+RUN add-apt-repository ppa:jonathonf/ffmpeg-3 && \
+		apt-get update && \
+		apt-get install -y \
+			ffmpeg \
+			libav-tools \
+			x264 x265
+
 # cleanup from all the apt stuff...
 RUN rm -rf /var/lib/apt/lists/*
 
-RUN mkdir /usr/io
+RUN mkdir -p /usr/io
 COPY shadowfrag.py /usr/src/app
 RUN chmod +x /usr/src/app/shadowfrag.py
-CMD /usr/bin/python /usr/src/app/shadowfrag.py
+CMD /usr/src/app/shadowfrag.py

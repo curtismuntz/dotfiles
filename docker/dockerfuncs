@@ -112,6 +112,13 @@ hazelcast_cache() {
      --name hazelcast_server \
      hazelcast/hazelcast
 }
+
+shadowfrag() {
+  docker run --rm -it \
+    --name shadowfrag \
+    -v `pwd`:/usr/io \
+    murtis/shadowfrag:latest
+}
 #docker run --rm -it --name grpc_cache_server --env LISTEN_PORT=8080 murtis/bazel_grpc_cache
 # +custom_gzserver(){
 #  +    docker run -d --rm -it \

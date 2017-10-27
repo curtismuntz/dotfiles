@@ -33,3 +33,8 @@ function murtip () {
   local ip_rt=$(ip route get 8.8.8.8 | head -1 | cut -d' ' -f8)
   echo $ip_rt
 }
+
+function murtiface () {
+  local ip_rt=$(ip route get 8.8.8.8 | head -1 | cut -d' ' -f5)
+  echo $ip_rt
+}

@@ -33,9 +33,9 @@ def sanitize_path(path_name):
 def main():
     arg_parser = argparse.ArgumentParser(
             description="Combines all videos in a directory into a single video")
-    arg_parser.add_argument("--input_dir", "-i", default=".", required=True,
+    arg_parser.add_argument("--input_dir", "-i", default="/usr/io",
                             help="The directory containing all your sweet frags")
-    arg_parser.add_argument("--output_dir", "-o", default=".",
+    arg_parser.add_argument("--output_dir", "-o", default="/usr/io",
                             help="The output directory to export fragtage to")
 
     args = arg_parser.parse_args()
