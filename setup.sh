@@ -8,6 +8,7 @@ finish() {
 trap finish EXIT INT TERM
 
 force_ln_s() {
+  # if the file doesn't exist, link it; otherwise backup the old file and link it
 	if ! [ -f $2 ]; then
 		ln -s $1 $2
 	else
