@@ -57,7 +57,7 @@ ros_ewok() {
 
 pubg_automontage() {
   docker run --rm -it \
-    --name shadowfrag \
+    --name pubg_automontage \
     -v `pwd`:/usr/io \
     murtis/pubg_automontage:latest
 }
