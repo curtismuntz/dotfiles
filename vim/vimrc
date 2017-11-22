@@ -14,6 +14,8 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'rhysd/vim-clang-format'
 Plugin 'josuegaleas/jay'
+" ALE requires vim 8
+" Plugin 'w0rp/ale'
 " Plugin 'Valloric/YouCompleteMe'
 " Plugin 'jeaye/color_coded'
 " Plugin 'rdnetto/YCM-Generator'

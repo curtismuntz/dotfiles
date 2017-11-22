@@ -2,9 +2,8 @@
 # remote options #
 ##################
 startup --host_jvm_args=-Dbazel.DigestFunction=SHA1
-#build --remote_cache=172.17.0.4:8085
-#build --remote_cache=172.25.0.101:8085
-build --remote_cache=192.168.88.174:8085
+# Remote cache is set to the docker-compose created bazel worker IP
+build --remote_cache=172.25.0.101:8085
 build --spawn_strategy=remote
 build --strategy=Javac=remote
 build --strategy=Closure=remote
@@ -13,12 +12,10 @@ build --strategy=Closure=remote
 # build #
 #########
 build --verbose_failures
-build --curses yes --color yes --announce_rc
+build --curses yes --color yes
 build --copt=-fdiagnostics-color=always
 build --copt=--std=c++14
 build --incompatible_disallow_set_constructor=false
-#build --jobs 100 --local_resources 4096,2.0,1.0
-#build -c opt
 
 #########
 # clean #

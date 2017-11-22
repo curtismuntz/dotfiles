@@ -2,6 +2,7 @@
 # Bash wrappers for docker run commands
 alias dl='docker ps -l -q'
 
+# copied from jessfrazz
 dcleanup() {
     local containers
     containers=( $(docker ps -aq 2>/dev/null) )
@@ -14,6 +15,7 @@ dcleanup() {
     docker rmi "${images[@]}" 2>/dev/null
 }
 
+# copied from jessfrazz
 del_stopped() {
     local name=$1
     local state
@@ -34,45 +36,6 @@ custom_zim() {
        murtis/zimwiki
 }
 
-custom_spotify() {
-    del_stopped spotify
-    docker run --rm -d \
-        -v /etc/localtime:/etc/localtime:ro \
-        -v /tmp/.X11-unix:/tmp/.X11-unix \
-        -e DISPLAY=$DISPLAY \
-        --device /dev/snd \
-        -v $HOME/.spotify/config:/home/spotify/.config/spotify \
-        -v $HOME/.spotify/cache:/home/spotify/spotify \
-        -v /run/user/1000/pulse:/run/user/1000/pulse \
-        -e PULSE_SERVER=unix:/run/user/1000/pulse/native \
-        --name spotify \
-        murtis/spotify
-        #--device /dev/dri \
-        #--group-add $(getent group audio | cut -d: -f3) \
-    cat ~/Desktop/pw.md
-}
-
-stop_slack() {
-    xhost -local:root
-    del_stopped slack
-}
-
-custom_slack() {
-    stop_slack
-    xhost +local:root
-    docker run -d --rm -it \
-        -v /etc/localtime:/etc/localtime:ro \
-        -v /tmp/.X11-unix:/tmp/.X11-unix \
-        -e DISPLAY=$DISPLAY \
-        --device /dev/snd \
-        --device /dev/dri \
-        --group-add audio \
-        -v "${HOME}/.slack:/root/.config/Slack" \
-        --ipc="host" \
-        --name slack \
-       murtis/slack
-}
-
 jupyter_notebook() {
   docker run -it --rm \
   -p 8888:8888 \
@@ -81,13 +44,6 @@ jupyter_notebook() {
 }
 
 murtbuntu() {
-  docker run -it --rm \
-    -v ~/sbox:/home/user/sbox/ \
-    --network=MURTISWAS_HERE_bazeltest \
-    murtis/murtbuntu
-}
-
-winbuntu() {
   docker run -it --rm \
     -v ~/sbox:/home/user/sbox/ \
     murtis/murtbuntu
@@ -99,41 +55,9 @@ ros_ewok() {
     murtis/ewok_example
 }
 
-bazel_worker() {
-  docker run --rm -it \
-    --name grpc_cache_server \
-    --env LISTEN_PORT=8085 \
-    --env HAZELCAST_SEVER=172.17.0.3 \
-    murtis/bazel_remote_worker
-}
-
-hazelcast_cache() {
-  docker run --rm -it \
-     --name hazelcast_server \
-     hazelcast/hazelcast
-}
-
-shadowfrag() {
+pubg_automontage() {
   docker run --rm -it \
     --name shadowfrag \
     -v `pwd`:/usr/io \
-    murtis/shadowfrag:latest
+    murtis/pubg_automontage:latest
 }
-#docker run --rm -it --name grpc_cache_server --env LISTEN_PORT=8080 murtis/bazel_grpc_cache
-# +custom_gzserver(){
-#  +    docker run -d --rm -it \
-#  +    --name=gzserver \
-#  +    custom/gazeboserver
-#  +}
-#  +
-#  +custom_gzclient(){
-#  +    del_stopped custom_gzclient
-#  +    xhost +local:root
-#  +    docker run --rm -it \
-#  +	-v /etc/localtime:/etc/localtime:ro \
-#  +	-v "/tmp/.X11-unix:/tmp/.X11-unix:rw" \
-#  +	-e DISPLAY=unix$DISPLAY \
-#  +	--name gazeboclient \
-#  +	custom/gazeboclient
-#  +
-#  +}
