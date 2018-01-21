@@ -27,6 +27,7 @@ sudo apt-get install -y zsh \
                         python \
                         python3 \
                         python3-pip \
+                        rsync \
                         terminator
 sudo pip3 install virtualenv
 ```
