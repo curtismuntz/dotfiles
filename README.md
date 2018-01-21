@@ -27,6 +27,13 @@ sudo apt-get install -y zsh \
 ```
 
 # more complex installs
+## vundle
+From https://github.com/VundleVim/Vundle.vim#quick-start
+```!bash
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+vim +PluginInstall +qall
+```
+
 ## docker
 From https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/
 ```!bash
@@ -41,7 +48,7 @@ sudo add-apt-repository \
    $(lsb_release -cs) \
    stable"
 sudo apt-get update
-sudo apt-get install -y docker-ce
+sudo apt-get install -y docker-ce docker-compose
 sudo usermod -aG docker `whoami`
 ```
 
@@ -89,3 +96,5 @@ sudo apt-get install -y spotify-client
 https://slack.com/downloads/linux
 ## discord
 https://discordapp.com/download
+## steam
+http://store.steampowered.com/about/
