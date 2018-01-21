@@ -23,7 +23,12 @@ sudo apt-get install -y zsh \
                         openssh-client \
                         golang-go \
                         ctop \
+                        clang-format \
+                        python \
+                        python3 \
+                        python3-pip \
                         terminator
+sudo pip3 install virtualenv
 ```
 
 # more complex installs
@@ -73,6 +78,15 @@ go get github.com/bazelbuild/buildtools/buildifier
 From https://github.com/robbyrussell/oh-my-zsh#basic-installation
 ```!bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+```
+
+## resin cli
+https://nodejs.org/en/
+
+```!bash
+curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
+sudo apt-get install -y nodejs
+npm install --global --production resin-cli
 ```
 
 ## spotify
