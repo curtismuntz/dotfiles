@@ -1,4 +1,5 @@
 #!/bin/bash
+export GOPATH=$HOME/go
 
 # Dev aliases
 alias mi='cmake .. && make install -j'

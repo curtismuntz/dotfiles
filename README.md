@@ -21,6 +21,8 @@ sudo apt-get install -y zsh \
                         vim \
                         nmap \
                         openssh-client \
+                        golang-go \
+                        ctop \
                         terminator
 ```
 
@@ -51,6 +53,13 @@ sudo apt-get install -y openjdk-8-jdk
 echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
 curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
 sudo apt-get update && sudo apt-get install -y bazel
+```
+
+### buildifier
+From https://github.com/bazelbuild/buildtools/tree/master/buildifier
+```!bash
+sudo apt-get install -y golang-go
+go get github.com/bazelbuild/buildtools/buildifier
 ```
 
 ## oh-my-zsh
