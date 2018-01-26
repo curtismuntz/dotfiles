@@ -122,3 +122,5 @@ https://slack.com/downloads/linux
 https://discordapp.com/download
 ## steam
 http://store.steampowered.com/about/
+## atom
+https://atom.io/
