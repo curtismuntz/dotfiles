@@ -96,7 +96,7 @@ https://nodejs.org/en/
 ```!bash
 curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
 sudo apt-get install -y nodejs
-npm install --global --production resin-cli
+sudo npm install --global --production resin-cli
 ```
 
 ## spotify
