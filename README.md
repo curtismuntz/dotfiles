@@ -34,7 +34,15 @@ chsh -s $(which zsh)
 ```
 
 # more complex installs
-## vundle
+## cinnamon
+From http://www.omgubuntu.co.uk/2017/05/install-cinnamon-3-4-ubuntu-ppa
+```!bash
+sudo add-apt-repository ppa:embrosyn/cinnamon
+sudo apt update && sudo apt install cinnamon
+```
+Themes: arc
+Icons: vivacious
+
 From https://github.com/VundleVim/Vundle.vim#quick-start
 ```!bash
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
