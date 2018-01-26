@@ -30,6 +30,7 @@ sudo apt-get install -y zsh \
                         rsync \
                         terminator
 sudo pip3 install virtualenv
+chsh -s $(which zsh)
 ```
 
 # more complex installs
