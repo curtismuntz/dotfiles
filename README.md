@@ -88,6 +88,7 @@ go get github.com/bazelbuild/buildtools/buildifier
 From https://github.com/robbyrussell/oh-my-zsh#basic-installation
 ```!bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
 ```
 
 ## resin cli
