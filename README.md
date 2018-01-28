@@ -84,6 +84,12 @@ sudo apt-get install -y golang-go
 go get github.com/bazelbuild/buildtools/buildifier
 ```
 
+### cmake
+```!bash
+sudo add-apt-repository ppa:george-edison55/cmake-3.x -y
+sudo apt-get update && sudo apt-get install cmake -y
+```
+
 ## oh-my-zsh
 From https://github.com/robbyrussell/oh-my-zsh#basic-installation
 ```!bash
