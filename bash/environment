@@ -20,3 +20,6 @@ export LC_ALL="en_US.UTF-8"
 # compiler
 export CC=gcc
 export CXX=g++
+
+# go
+export GOPATH=$HOME/go

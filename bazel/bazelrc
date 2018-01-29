@@ -37,7 +37,7 @@ build --experimental_remote_retry=false
 build --verbose_failures
 build --curses yes --color yes
 build --copt=-fdiagnostics-color=always
-build --copt=--std=c++14
+#build --copt=--std=c++14
 
 #########
 # clean #
