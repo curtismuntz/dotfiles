@@ -28,6 +28,7 @@ sudo apt-get install -y zsh \
                         python3 \
                         python3-pip \
                         rsync \
+                        python3-tk \
                         terminator
 sudo pip3 install virtualenv
 chsh -s $(which zsh)
