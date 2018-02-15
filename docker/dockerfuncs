@@ -69,3 +69,4 @@ ctop() {
     quay.io/vektorlab/ctop:latest
 
 }
+alias buildfarm='docker-compose -f ~/murt/buildfarm/buildfarm.yml up'

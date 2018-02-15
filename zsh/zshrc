@@ -60,6 +60,7 @@ if [ -f ~/.work_rc ]; then source ~/.work_rc; fi
 
 alias nmap='noglob nmap'
 alias calc='noglob calc'
+alias rsync='noglob rsync'
 
 # BAZEL AUTOCOMPLETE
 # This way the completion script does not have to parse Bazel's options
