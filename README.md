@@ -27,7 +27,9 @@ sudo apt-get install -y zsh \
                         python \
                         python3 \
                         python3-pip \
+                        python3-tk \
                         rsync \
+                        silversearcher-ag \
                         terminator
 sudo pip3 install virtualenv
 chsh -s $(which zsh)
