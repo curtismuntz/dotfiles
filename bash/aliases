@@ -40,4 +40,15 @@ function murtiface () {
   echo $ip_rt
 }
 
+function screen_record () {
+  if [ $# -eq 0 ]; then
+    echo "Usage: screen_record [OUTPUT_FILENAME]"
+    return 1
+  fi
+  local resolution=$(xdpyinfo | grep dimensions | sed -r 's/^[^0-9]*([0-9]+x[0-9]+).*$/\1/')
+  ffmpeg -framerate 25 -video_size $resolution -f x11grab -i :0.0 -f alsa -ac 2 -i pulse -vcodec libx264 -crf 0 -preset ultrafast $1
+}
+
+
 alias swapesc='/usr/bin/setxkbmap -option "caps:swapescape"'
+alias ninja-ccache='PATH=/usr/lib/ccache:$PATH ninja'
