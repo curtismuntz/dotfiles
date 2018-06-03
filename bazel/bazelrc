@@ -1,18 +1,18 @@
 ##################
 # remote options #
 ##################
-startup --host_jvm_args=-Dbazel.DigestFunction=SHA1
+startup --host_jvm_args=-Dbazel.DigestFunction=SHA256
 # Remote cache is set to the docker-compose created bazel worker IP
 #build --remote_cache=172.25.0.101:8085
-build --remote_cache=172.42.0.101:8980
-build --remote_executor=172.42.0.101:8980
+#build --remote_cache=172.42.0.101:8980
+#build --remote_executor=172.42.0.101:8980
 #build --remote_cache=localhost:8980
 #build --remote_executor=localhost:8980
-build --spawn_strategy=remote
-build --strategy=Javac=remote
-build --strategy=Closure=remote
-build --genrule_strategy=remote
-build --define=EXECUTOR=remote
+#build --spawn_strategy=remote
+#build --strategy=Javac=remote
+#build --strategy=Closure=remote
+#build --genrule_strategy=remote
+#build --define=EXECUTOR=remote
 
 # Set various strategies so that all actions execute remotely. Mixing remote
 # # and local execution will lead to errors unless the toolchain and remote
@@ -25,11 +25,11 @@ build --define=EXECUTOR=remote
 
 # Enable the remote local fallback feature, allowing compilations to finish locally if remote
 # servers are not present
-build --remote_local_fallback=true
+#build --remote_local_fallback=true
 # Upload the results fo the local cache to the build server
-build --remote_upload_local_results=true
+#build --remote_upload_local_results=true
 # Disable remote retry in order to speed up the local compilation tasks when remote is unavailable
-build --experimental_remote_retry=false
+#build --experimental_remote_retry=false
 
 #########
 # build #

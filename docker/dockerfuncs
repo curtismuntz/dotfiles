@@ -27,12 +27,18 @@ del_stopped() {
 
 custom_zim() {
     del_stopped zim
+    KEY=$(xauth list  |grep $(hostname) | awk '{ print $3 }' | head -n 1)
+    DCK_HOST=docker-zim
+    xauth add $DCK_HOST/unix:0 . $KEY
     docker run --rm -it -d \
        --user=$(id -u $(whoami)) \
-       -e DISPLAY=$DISPLAY \
+       -e DISPLAY=unix$DISPLAY \
        -v /tmp/.X11-unix:/tmp/.X11-unix \
+       -v $HOME/.Xauthority:/tmp/.Xauthority \
        -v $HOME/Documents/Notebooks/Notes:/home/curtis/Notebooks/Notes \
        --name zim \
+       -h $DCK_HOST \
+       -e XAUTHORITY=/tmp/.Xauthority  \
        murtis/zimwiki
 }
 
@@ -69,4 +75,4 @@ ctop() {
     quay.io/vektorlab/ctop:latest
 
 }
-alias buildfarm='docker-compose -f ~/murt/buildfarm/buildfarm.yml up'
+alias buildfarm='docker-compose -f ~/projects/buildfarm/buildfarm.yml up'
