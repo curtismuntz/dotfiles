@@ -45,6 +45,7 @@ sudo apt update && sudo apt install cinnamon
 Themes: arc
 Icons: vivacious
 
+## vim
 From https://github.com/VundleVim/Vundle.vim#quick-start
 ```!bash
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
