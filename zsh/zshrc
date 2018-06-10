@@ -31,9 +31,6 @@ fi
 # Uncomment the following line to change how often to auto-update (in days).
 export UPDATE_ZSH_DAYS=1
 
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
 # Uncomment the following line to display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
 
@@ -47,12 +44,11 @@ plugins=(z git mercurial zsh-autosuggestions autojump command-not-found python p
 
 bindkey '^ ' autosuggest-accept
 
-
 source $ZSH/oh-my-zsh.sh
-
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=6"
 setopt HIST_IGNORE_SPACE
+setopt histignorespace
 
 if [ -f ~/.environment ]; then source ~/.environment; fi
 if [ -f ~/.aliases ]; then source ~/.aliases; fi
