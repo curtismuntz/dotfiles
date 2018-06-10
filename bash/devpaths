@@ -2,6 +2,7 @@
 
 # python
 export PYTHONPATH=$PYTHONPATH:$HOME/murt/mython
+export PYTHONSTARTUP=~/.pythonrc
 
 # go
 export PATH=$PATH:/usr/local/go/bin
