@@ -16,6 +16,9 @@ export ZSH=~/.oh-my-zsh
 #ZSH_THEME="geometry"
 #ZSH_THEME="flazz"
 ZSH_THEME="lambda"
+if [[ -o login ]]; then
+  ZSH_THEME="flazz"
+fi
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
