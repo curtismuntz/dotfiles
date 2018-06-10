@@ -4,20 +4,15 @@ export ZSH=~/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-#ZSH_THEME="nicoulaj"
-#ZSH_THEME="geometry"
+# has a sweet time field
 #ZSH_THEME="fletcherm"
-#ZSH_THEME="random"
-#ZSH_THEME="gallois"
-#ZSH_THEME="agnoster"
-#ZSH_THEME="muse"
-#ZSH_THEME="geometry"
-#ZSH_THEME="flazz"
-ZSH_THEME="lambda"
+# nice, super minimal design
+#ZSH_THEME="nicoulaj"
+# requires install
+# git clone https://github.com/geometry-zsh/geometry.git $HOME/.oh-my-zsh/custom/themes/geometry
+ZSH_THEME="geometry/geometry"
 if [[ -o login ]]; then
-  ZSH_THEME="flazz"
+  ZSH_THEME="nicoulaj"
 fi
 
 # Uncomment the following line to use case-sensitive completion.
