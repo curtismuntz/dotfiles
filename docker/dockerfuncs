@@ -75,4 +75,12 @@ ctop() {
     quay.io/vektorlab/ctop:latest
 
 }
+
+flight_review() {
+  docker run --rm \
+    --name flight_review \
+    --network=host \
+    murtis/flight_review
+}
+
 alias buildfarm='docker-compose -f ~/projects/buildfarm/buildfarm.yml up'
