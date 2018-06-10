@@ -41,6 +41,7 @@ function murtiface () {
 }
 
 function screen_record () {
+  # requires ffmpeg system installed =(
   if [ $# -eq 0 ]; then
     echo "Usage: screen_record [OUTPUT_FILENAME]"
     return 1
