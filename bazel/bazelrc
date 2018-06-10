@@ -38,6 +38,8 @@ build --verbose_failures
 build --curses yes --color yes
 build --copt=-fdiagnostics-color=always
 build --cxxopt=--std=c++14
+build --announce_rc -c opt
+build --local_resourves=10000,6,1.0
 
 #########
 # clean #
@@ -48,3 +50,9 @@ clean --expunge_async
 # test #
 ########
 test --test_verbose_timeout_warnings
+test --local_resourves=10000,6,1.0
+
+#########
+# query #
+#########
+query --deleted_packages=//experimental/kgk/api_bazel
