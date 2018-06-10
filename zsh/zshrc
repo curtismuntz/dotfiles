@@ -67,6 +67,7 @@ alias rsync='noglob rsync'
 # repeatedly.  The directory in cache-path must be created manually.
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/murt/dotfiles/zsh/cache
+
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
         source /etc/profile.d/vte.sh
 fi
