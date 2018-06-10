@@ -12,8 +12,10 @@ export ZSH=~/.oh-my-zsh
 #ZSH_THEME="random"
 #ZSH_THEME="gallois"
 #ZSH_THEME="agnoster"
-ZSH_THEME="muse"
+#ZSH_THEME="muse"
 #ZSH_THEME="geometry"
+#ZSH_THEME="flazz"
+ZSH_THEME="lambda"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
