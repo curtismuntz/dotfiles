@@ -35,11 +35,9 @@ startup --host_jvm_args=-Dbazel.DigestFunction=SHA256
 # build #
 #########
 build --verbose_failures
-build --curses yes --color yes
-build --copt=-fdiagnostics-color=always
 build --cxxopt=--std=c++14
 build --announce_rc -c opt
-build --local_resources=10000,6,1.0
+build --local_resources=10000,4,1.0
 
 #########
 # clean #
@@ -50,7 +48,7 @@ clean --expunge_async
 # test #
 ########
 test --test_verbose_timeout_warnings
-test --local_resources=10000,6,1.0
+test --local_resources=10000,4,1.0
 
 #########
 # query #
