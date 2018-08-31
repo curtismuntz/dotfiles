@@ -53,3 +53,17 @@ function screen_record () {
 
 alias swapesc='/usr/bin/setxkbmap -option "caps:swapescape"'
 alias ninja-ccache='PATH=/usr/lib/ccache:$PATH ninja'
+
+function build_and_copy_to_sim() {
+  set -x
+  local target=$1
+  local binary=`basename $target`
+  local bazel_binary="bazel-bin/$target/$binary"
+  bazel build $target
+  docker cp $bazel_binary drone-sim:/home/a17/a17/deploy/bin/$binary
+}
+
+function mount_nas() {
+  local nas_ip=$1
+  sudo mount -vvv -t nfs $nas_ip:/mnt/WD_5400_SATA/MurtNFS /mnt/freenas
+}
