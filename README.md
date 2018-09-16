@@ -42,8 +42,13 @@ From http://www.omgubuntu.co.uk/2017/05/install-cinnamon-3-4-ubuntu-ppa
 sudo add-apt-repository ppa:embrosyn/cinnamon
 sudo apt update && sudo apt install cinnamon
 ```
-Themes: arc
-Icons: vivacious
+
+## themes
+Download the deb file from here and install it http://www.ravefinity.com/p/vivacious-colors-gtk-icon-theme.html
+
+```!bash
+sudo apt install arc-theme
+```
 
 ## vim
 From https://github.com/VundleVim/Vundle.vim#quick-start
