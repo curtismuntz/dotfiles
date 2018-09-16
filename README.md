@@ -14,7 +14,7 @@ An example can be seen in the dockerfile for murtbuntu for how to set up my work
 
 # basic installs
 ```!bash
-sudo apt-get install -y zsh \
+sudo apt install -y zsh \
                         git \
                         tree \
                         curl \
