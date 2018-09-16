@@ -109,28 +109,14 @@ sudo apt-get install -y nodejs
 sudo npm install --global --production resin-cli
 ```
 
-## spotify
-From https://www.spotify.com/us/download/linux/
+# snap installs
+## slack
 ```!bash
-# 1. Add the Spotify repository signing keys to be able to verify downloaded packages
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0DF731E45CE24F27EEEB1450EFDC8610341D9410
-
-# 2. Add the Spotify repository
-echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
-
-# 3. Update list of available packages
-sudo apt-get update
-
-# 4. Install Spotify
-sudo apt-get install -y spotify-client
+snap install spotify
+snap install slack --classic
+snap install discord
+snap install atom --classic
 ```
 
-# downloaded installers
-## slack
-https://slack.com/downloads/linux
-## discord
-https://discordapp.com/download
-## steam
+# steam
 http://store.steampowered.com/about/
-## atom
-https://atom.io/
