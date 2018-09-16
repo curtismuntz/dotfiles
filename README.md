@@ -30,7 +30,7 @@ sudo apt install -y zsh \
                         python3-tk \
                         rsync \
                         silversearcher-ag \
-                        terminator
+                        tilix
 sudo pip3 install virtualenv
 chsh -s $(which zsh)
 ```
