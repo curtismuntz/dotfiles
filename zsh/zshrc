@@ -5,12 +5,12 @@ export ZSH=~/.oh-my-zsh
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # has a sweet time field
-#ZSH_THEME="fletcherm"
+ZSH_THEME="fletcherm"
 # nice, super minimal design
 #ZSH_THEME="nicoulaj"
 # requires install
 # git clone https://github.com/geometry-zsh/geometry.git $HOME/.oh-my-zsh/custom/themes/geometry
-ZSH_THEME="geometry/geometry"
+#ZSH_THEME="geometry/geometry"
 if [[ -o login ]]; then
   ZSH_THEME="nicoulaj"
 fi
@@ -62,7 +62,17 @@ alias rsync='noglob rsync'
 # This way the completion script does not have to parse Bazel's options
 # repeatedly.  The directory in cache-path must be created manually.
 zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path ~/murt/dotfiles/zsh/cache
+zstyle ':completion:*' cache-path ~/.zsh/cache
+
+# Automatically run tree after cd
+function chpwd() {
+    emulate -L zsh
+    tree -L 1
+}
+
+# Several scripts use BASH_SOURCE[0] to my chagrin.
+#
+#
 
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
         source /etc/profile.d/vte.sh

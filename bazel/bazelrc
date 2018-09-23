@@ -35,10 +35,9 @@ startup --host_jvm_args=-Dbazel.DigestFunction=SHA256
 # build #
 #########
 build --verbose_failures
-build --cxxopt=--std=c++14
-build --announce_rc -c opt
+build --announce_rc
 build --local_resources=10000,4,1.0
-
+build --cxxopt=--std=c++14
 #########
 # clean #
 #########

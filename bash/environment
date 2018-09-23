@@ -23,3 +23,6 @@ export CXX=g++
 
 # go
 export GOPATH=$HOME/go
+
+# bazel python
+export BAZEL_PYTHON=/usr/bin/python3
