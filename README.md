@@ -20,6 +20,7 @@ sudo apt install -y zsh \
                         curl \
                         vim \
                         nmap \
+                        nfs-common \
                         openssh-client \
                         golang-go \
                         ctop \
