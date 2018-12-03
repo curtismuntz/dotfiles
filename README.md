@@ -14,12 +14,13 @@ An example can be seen in the dockerfile for murtbuntu for how to set up my work
 
 # basic installs
 ```!bash
-sudo apt-get install -y zsh \
+sudo apt install -y zsh \
                         git \
                         tree \
                         curl \
                         vim \
                         nmap \
+                        nfs-common \
                         openssh-client \
                         golang-go \
                         ctop \
@@ -30,7 +31,7 @@ sudo apt-get install -y zsh \
                         python3-tk \
                         rsync \
                         silversearcher-ag \
-                        terminator
+                        tilix
 sudo pip3 install virtualenv
 chsh -s $(which zsh)
 ```
@@ -42,8 +43,13 @@ From http://www.omgubuntu.co.uk/2017/05/install-cinnamon-3-4-ubuntu-ppa
 sudo add-apt-repository ppa:embrosyn/cinnamon
 sudo apt update && sudo apt install cinnamon
 ```
-Themes: arc
-Icons: vivacious
+
+## themes
+Download the deb file from here and install it http://www.ravefinity.com/p/vivacious-colors-gtk-icon-theme.html
+
+```!bash
+sudo apt install arc-theme
+```
 
 ## vim
 From https://github.com/VundleVim/Vundle.vim#quick-start
@@ -109,28 +115,14 @@ sudo apt-get install -y nodejs
 sudo npm install --global --production resin-cli
 ```
 
-## spotify
-From https://www.spotify.com/us/download/linux/
+# snap installs
+## slack
 ```!bash
-# 1. Add the Spotify repository signing keys to be able to verify downloaded packages
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0DF731E45CE24F27EEEB1450EFDC8610341D9410
-
-# 2. Add the Spotify repository
-echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
-
-# 3. Update list of available packages
-sudo apt-get update
-
-# 4. Install Spotify
-sudo apt-get install -y spotify-client
+snap install spotify
+snap install slack --classic
+snap install discord
+snap install atom --classic
 ```
 
-# downloaded installers
-## slack
-https://slack.com/downloads/linux
-## discord
-https://discordapp.com/download
-## steam
+# steam
 http://store.steampowered.com/about/
-## atom
-https://atom.io/

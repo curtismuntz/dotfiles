@@ -24,9 +24,9 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 alias git_delete_merged='git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d'
 
 # call tree when cd s called
-function cd {
-    builtin cd "$@" && tree -L 1
-}
+#function cd {
+#    builtin cd "$@" && tree -L 1
+#}
 
 # echos the ip address that is used to get to the internet. Note that this might fail in the case
 # that multiple addresses can get to 8.8.8.8
@@ -37,11 +37,13 @@ function murtip () {
 
 function murtiface () {
   local ip_rt=$(ip route get 8.8.8.8 | head -1 | cut -d' ' -f5)
+  #local ip_rt=$(ip route get "optitrack-server-hyperv.local" |head -1 | cut -d' ' -f5)
   echo $ip_rt
 }
 
 function screen_record () {
   # requires ffmpeg system installed =(
+  # TODO(murt) move this into a dockerfile somehow...
   if [ $# -eq 0 ]; then
     echo "Usage: screen_record [OUTPUT_FILENAME]"
     return 1
@@ -53,6 +55,7 @@ function screen_record () {
 
 alias swapesc='/usr/bin/setxkbmap -option "caps:swapescape"'
 alias ninja-ccache='PATH=/usr/lib/ccache:$PATH ninja'
+
 
 function build_and_copy_to_sim() {
   set -x
@@ -66,4 +69,40 @@ function build_and_copy_to_sim() {
 function mount_nas() {
   local nas_ip=$1
   sudo mount -vvv -t nfs $nas_ip:/mnt/WD_5400_SATA/MurtNFS /mnt/freenas
+}
+
+function flash_teal_app_partition() {
+  sudo ./flash.sh -d /home/murt/Documents/jetpack/3.2_TEAL/teal_slash_boot/boot/dtb/teal-device-tree.dtb jetson-tx1 mmcblk0p1
+}
+
+function flash_teal_dtb_partition() {
+  sudo ./flash -r -k DTB jetson-tx1 mmcblk0p1
+}
+
+alias cda='cd ~/a17/src7'
+alias mkderp='mkdir -p'
+
+function run_simulator() {
+   # -v ~/a17/pkg/linux/bin:/opt/EXTERNALLY_BUILT/bin2 \
+   bazel run -c opt deploy/drone_sim_container:container && \
+   docker run --rm --network=host -it \
+      -v ~/a17/deploy/bin:/opt/EXTERNALLY_BUILT/bin \
+      -v ~/a17/pkg/linux/lib:/opt/EXTERNALLY_BUILT/pkg_linux_lib \
+      -v ~/a17/deploy/lib:/opt/EXTERNALLY_BUILT/deploy_lib \
+      -v ~/a17/px4:/opt/EXTERNALLY_BUILT/px4 \
+      -v ~/.gazebo/models:/opt/EXTERNALLY_BUILT/models \
+      bazel/deploy/drone_sim:container
+}
+
+function run_simulator_new_px4() {
+      #-v /home/murt/a17/px4_1.8.0_upgrade/px4_v_1.8.0:/opt/EXTERNALLY_BUILT/px4 \
+      #-v /home/murt/a17/px4_1.8.0_upgrade/mcsauder_px4:/opt/EXTERNALLY_BUILT/px4 \
+   bazel run -c opt deploy/drone_sim_container:container && \
+   docker run --rm --network=host -it \
+      -v ~/a17/px4_1.8.0_upgrade/px4_HEAD_1_8_0:/opt/EXTERNALLY_BUILT/px4 \
+      -v ~/a17/deploy/bin:/opt/EXTERNALLY_BUILT/bin \
+      -v ~/a17/pkg/linux/lib:/opt/EXTERNALLY_BUILT/pkg_linux_lib \
+      -v ~/a17/deploy/lib:/opt/EXTERNALLY_BUILT/deploy_lib \
+      -v ~/.gazebo/models:/opt/EXTERNALLY_BUILT/models \
+      bazel/deploy/drone_sim:container
 }
