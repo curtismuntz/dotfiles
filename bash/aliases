@@ -79,7 +79,7 @@ function flash_teal_dtb_partition() {
   sudo ./flash -r -k DTB jetson-tx1 mmcblk0p1
 }
 
-alias cda='cd ~/a17/src7'
+alias cda='cd ~/a17/src'
 alias mkderp='mkdir -p'
 
 function run_simulator() {

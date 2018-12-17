@@ -44,19 +44,20 @@ install_deps() {
 		python3 \
 		python3-pip \
 		python-pip \
-		rsync \
-		tilix
-		
+		rsync
+# To install tilix sudo add-apt-repository ppa:webupd8team/terminix
+#		tilix
+
 	install_docker
-	
+
 	sudo chsh --shell $(which zsh) $(whoami)
-	
+
 	echo "Installing snap apps"
 	sudo snap install spotify
-	sudo snap install slack --classic
+	# sudo snap install slack --classic
 	sudo snap install discord
-	sudo snap install atom --classic
-	
+	# sudo snap install atom --classic
+
 	echo "Install oh-my-zsh manually"
 }
 
