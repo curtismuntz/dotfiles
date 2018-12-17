@@ -1,4 +1,6 @@
 #! /bin/bash
+set -ex
+
 finish() {
 	 # do stuff
    # exit traps! holy shit!
@@ -6,6 +8,57 @@ finish() {
 
  };
 trap finish EXIT INT TERM
+
+install_docker() {
+	sudo apt-get install -y \
+	    apt-transport-https \
+	    ca-certificates \
+	    curl \
+	    software-properties-common
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+	sudo add-apt-repository \
+	   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+	   $(lsb_release -cs) \
+	   stable"
+	sudo apt-get update
+	sudo apt-get install -y docker-ce docker-compose
+	sudo usermod -aG docker $(whoami)
+}
+
+install_deps() {
+	echo "Installing apt apps"
+	sudo apt-get update
+	sudo apt-get upgrade -y
+	sudo apt-get install -y \
+		git \
+		tree \
+		fonts-hack-ttf \
+		curl \
+		zsh \
+		openssh-client \
+		nfs-common \
+		nmap \
+		vim \
+		clang-format \
+		python \
+		python3 \
+		python3-pip \
+		python-pip \
+		rsync \
+		tilix
+		
+	install_docker
+	
+	sudo chsh --shell $(which zsh) $(whoami)
+	
+	echo "Installing snap apps"
+	sudo snap install spotify
+	sudo snap install slack --classic
+	sudo snap install discord
+	sudo snap install atom --classic
+	
+	echo "Install oh-my-zsh manually"
+}
 
 force_ln_s() {
   # if the file doesn't exist, link it; otherwise backup the old file and link it
@@ -22,6 +75,13 @@ echo "this will set up dot files to their symlinks"
 #DIR=`pwd`
 DIR=$HOME/murt/dotfiles
 echo "using DIR=$DIR"
+
+if [ $(id -u) = 0 ]; then
+   echo "Do not run this as root"
+   exit 1
+fi
+
+install_deps
 
 # These are commonly installed by packages. Force the symlink by backing up existing files first if
 # the exist
