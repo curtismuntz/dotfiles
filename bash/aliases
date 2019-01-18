@@ -79,7 +79,7 @@ function flash_teal_dtb_partition() {
   sudo ./flash -r -k DTB jetson-tx1 mmcblk0p1
 }
 
-alias cda='cd ~/a17/src'
+alias cda='cd ~/a17/monorepo'
 alias mkderp='mkdir -p'
 
 function run_simulator() {
@@ -106,3 +106,6 @@ function run_simulator_new_px4() {
       -v ~/.gazebo/models:/opt/EXTERNALLY_BUILT/models \
       bazel/deploy/drone_sim:container
 }
+
+# to emulate armv7hf... note that this requires the linaro downlaoded and extracted to ~/murt/ext
+alias qemu-rpi='qemu-arm -L /home/murt/murt/ext/gcc-linaro-5.3.1-2016.05-x86_64_arm-linux-gnueabihf/arm-linux-gnueabihf/libc'

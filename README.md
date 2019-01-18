@@ -36,6 +36,10 @@ sudo pip3 install virtualenv
 chsh -s $(which zsh)
 ```
 
+# bluetooth to bose headphones
+
+https://askubuntu.com/questions/833322/pair-bose-quietcomfort-35-with-ubuntu-over-bluetooth
+
 # more complex installs
 ## cinnamon
 From http://www.omgubuntu.co.uk/2017/05/install-cinnamon-3-4-ubuntu-ppa
