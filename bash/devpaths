@@ -10,3 +10,6 @@ export PATH=$PATH:/usr/local/go/bin
 export CUDA_HOME=/usr/local/cuda
 export PATH=${CUDA_HOME}/bin:${PATH}
 export LD_LIBRARY_PATH=${CUDA_HOME}/lib64:${CUDA_HOME}/lib64/stubs:$LD_LIBRARY_PATH
+
+# bazel
+export BAZEL_PYTHON=/usr/bin/python2.7
