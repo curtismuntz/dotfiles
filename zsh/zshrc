@@ -86,10 +86,6 @@ function chpwd() {
     tree -L 1
 }
 
-# Several scripts use BASH_SOURCE[0] to my chagrin.
-#
-#
-
-if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
-        source /etc/profile.d/vte.sh
+if [ $TILIX_ID ]; then
+    source /etc/profile.d/vte.sh
 fi
