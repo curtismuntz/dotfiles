@@ -20,6 +20,13 @@ force_ln_s() {
 	fi
 }
 
+install_bazel() {
+	sudo mkdir -p /opt/murt
+	sudo chown murt:murt /opt/murt
+	git clone git@github.com:philwo/bazelisk.git /opt/murt/bazelisk
+	sudo ln -s /opt/murt/bazelisk/bazelisk.py /usr/bin/bazel
+}
+
 install_docker() {
 	sudo apt-get install -y \
 	    apt-transport-https \
@@ -61,6 +68,8 @@ install_deps() {
 
 	sudo chsh --shell $(which zsh) $(whoami)
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+	# TODO: test if $ZSH_CUSTOM is set
+	# git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
 }
 
 symlink_dotfiles() {
@@ -87,9 +96,9 @@ symlink_dotfiles() {
 install_snaps() {
 	echo "Installing snap apps"
 	sudo snap install spotify
-	# sudo snap install slack --classic
+	sudo snap install slack --classic
 	sudo snap install discord
-	# sudo snap install atom --classic
+	sudo snap install atom --classic
 }
 
 
@@ -99,11 +108,16 @@ if [ $(id -u) = 0 ]; then
    exit 1
 fi
 
+if [ ! -f ~/.ssh/id_rsa.pub ]; then
+    echo "ssh key not found!"
+		echo "create an ssh key and upload it to github/lab before proceeding."
+		exit 1
+fi
+
 # Only install docker and snap apps if not on crostini
 if [[ $(hostname) != "penguin" ]]; then
 	install_docker
 	install_snaps
-	echo "not penguin"
 fi
 
 install_deps
