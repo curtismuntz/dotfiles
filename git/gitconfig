@@ -9,7 +9,7 @@
 	l = log --pretty=oneline -n 20 --graph --abbrev-commit
 	s = status -s
 [user]
-	email = cmuntz@a17.ai
+	email = me@murt.is
 	name = Curtis Muntz
 [push]
 	default = simple
