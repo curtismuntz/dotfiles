@@ -1,5 +1,5 @@
 #! /bin/bash
-set -ex
+set -x
 
 finish() {
 	 # do stuff
@@ -21,10 +21,9 @@ force_ln_s() {
 }
 
 install_bazel() {
-	sudo mkdir -p /opt/murt
-	sudo chown murt:murt /opt/murt
-	git clone git@github.com:philwo/bazelisk.git /opt/murt/bazelisk
-	sudo ln -s /opt/murt/bazelisk/bazelisk.py /usr/bin/bazel
+  sudo snap install --classic go
+  go get github.com/bazelbuild/buildtools/buildifier
+  go get github.com/bazelbuild/bazelisk
 }
 
 install_docker() {
@@ -63,14 +62,34 @@ install_deps() {
 		python3 \
 		python3-pip \
 		python-pip \
+    tmux \
 		rsync
-# To install tilix sudo add-apt-repository ppa:webupd8team/terminix
-#		tilix
+	sudo mkdir -p /opt/murt
+	sudo chown murt:murt /opt/murt
 
 	sudo chsh --shell $(which zsh) $(whoami)
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 	git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
 	git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+}
+
+configure_vim() {
+  git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+  vim +PluginInstall +qall
+}
+
+configure_zsh() {
+  # https://medium.com/@christyjacob4/powerlevel9k-themes-f400759638c2
+  wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Hack/Regular/complete/Hack%20Regular%20Nerd%20Font%20Complete.ttf
+}
+
+
+install_icons() {
+  # https://www.ravefinity.com/p/vivacious-colors-gtk-icon-theme.html
+  sudo add-apt-repository ppa:ravefinity-project/ppa
+  sudo apt-get update
+  sudo apt-get install vivacious-colors
 }
 
 symlink_dotfiles() {
@@ -94,14 +113,34 @@ symlink_dotfiles() {
 	if ! [ -f "$HOME/.pythonrc" ]; then ln -s $DIR/python/pythonrc $HOME/.pythonrc; fi
 }
 
-install_snaps() {
-	echo "Installing snap apps"
-	sudo snap install spotify
-	sudo snap install slack --classic
-	sudo snap install discord
-	sudo snap install atom --classic
+install_flatpak() {
+        echo "Installing flatpak and flatpak apps"
+        sudo add-apt-repository ppa:alexlarsson/flatpak
+        sudo apt update
+        sudo apt install flatpak
+        flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+        # Spotify, music app
+        flatpak install flathub com.spotify.Client
+        # Discord, gaming/voice/messaging app
+        flatpak install flathub com.discordapp.Discord
+        # Slack, messaging app
+        flatpak install flathub com.slack.Slack
+        # Natron, compositing app
+        flatpak install flathub fr.natron.Natron
+        # Atom, text editor
+        flatpak install flathub io.atom.Atom
+        # Signal, messaging app
+        flatpak install flathub org.signal.Signal
 }
 
+install_tilix_xenial () {
+  # Check if we're 16.04
+  if [[ $(uname -a) == *"16.04"* ]]; then
+    sudo add-apt-repository ppa:webupd8team/terminix
+    sudo ln -s /etc/profile.d/vte-2.91.sh /etc/profile.d/vte.sh
+  fi
+  sudo apt get install tilix
+}
 
 ## MAIN
 if [ $(id -u) = 0 ]; then
@@ -118,7 +157,11 @@ fi
 # Only install docker and snap apps if not on crostini
 if [[ $(hostname) != "penguin" ]]; then
 	install_docker
-	install_snaps
+  install_flatpak
+fi
+
+if [[ $(uname -a) == *"16.04"* ]]; then
+  install_tilix_xenial
 fi
 
 install_deps
