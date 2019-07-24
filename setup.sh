@@ -48,22 +48,24 @@ install_deps() {
 	sudo apt-get update
 	sudo apt-get upgrade -y
 	sudo apt-get install -y \
-		git \
-		tree \
-		fonts-hack-ttf \
+    autojump \
+    clang-format \
 		curl \
-		zsh \
-		openssh-client \
+		fonts-hack-ttf \
+		git \
 		nfs-common \
 		nmap \
-		vim \
-		clang-format \
+		openssh-client \
 		python \
+		python-pip \
 		python3 \
 		python3-pip \
-		python-pip \
+		rsync \
     tmux \
-		rsync
+		tree \
+		vim \
+		zsh
+
 	sudo mkdir -p /opt/murt
 	sudo chown murt:murt /opt/murt
 
