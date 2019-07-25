@@ -117,22 +117,22 @@ symlink_dotfiles() {
 
 install_flatpak() {
         echo "Installing flatpak and flatpak apps"
-        sudo add-apt-repository ppa:alexlarsson/flatpak
+        sudo add-apt-repository -y ppa:alexlarsson/flatpak
         sudo apt update
-        sudo apt install flatpak
+        sudo apt install -y flatpak
         flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
         # Spotify, music app
-        flatpak install flathub com.spotify.Client
+        flatpak install -y flathub com.spotify.Client
         # Discord, gaming/voice/messaging app
-        flatpak install flathub com.discordapp.Discord
+        flatpak install -y flathub com.discordapp.Discord
         # Slack, messaging app
-        flatpak install flathub com.slack.Slack
+        flatpak install -y flathub com.slack.Slack
         # Natron, compositing app
-        flatpak install flathub fr.natron.Natron
+        flatpak install -y flathub fr.natron.Natron
         # Atom, text editor
-        flatpak install flathub io.atom.Atom
+        flatpak install -y flathub io.atom.Atom
         # Signal, messaging app
-        flatpak install flathub org.signal.Signal
+        flatpak install -y flathub org.signal.Signal
 }
 
 install_tilix_xenial () {
@@ -168,3 +168,7 @@ fi
 
 install_deps
 symlink_dotfiles
+
+#TODO(curtismuntz): Add installers for:
+# fd: https://github.com/sharkdp/fd
+# bat: https://github.com/sharkdp/bat
