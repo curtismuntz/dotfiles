@@ -135,13 +135,13 @@ install_flatpak() {
         flatpak install -y flathub org.signal.Signal
 }
 
-install_tilix_xenial () {
+install_tilix () {
   # Check if we're 16.04
   if [[ $(uname -a) == *"16.04"* ]]; then
     sudo add-apt-repository ppa:webupd8team/terminix
     sudo ln -s /etc/profile.d/vte-2.91.sh /etc/profile.d/vte.sh
   fi
-  sudo apt get install tilix
+  sudo apt get install -y tilix
 }
 
 ## MAIN
@@ -162,11 +162,12 @@ if [[ $(hostname) != "penguin" ]]; then
   install_flatpak
 fi
 
-if [[ $(uname -a) == *"16.04"* ]]; then
-  install_tilix_xenial
-fi
-
 install_deps
+install_tilix
+install_icons
+install_bazel
+configure_vim
+configure_zsh
 symlink_dotfiles
 
 #TODO(curtismuntz): Add installers for:
