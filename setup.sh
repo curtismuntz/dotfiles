@@ -26,6 +26,11 @@ install_bazel() {
   go get github.com/bazelbuild/bazelisk
 }
 
+install_cinnamon() {
+	sudo add-apt-repository ppa:embrosyn/cinnamon
+  sudo apt update && sudo apt install cinnamon
+}
+
 install_docker() {
 	sudo apt-get update
 	sudo apt-get install -y \
@@ -34,7 +39,7 @@ install_docker() {
 	    curl \
 	    software-properties-common
 	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-	sudo add-apt-repository \
+	sudo add-apt-repository -y \
 	   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
 	   $(lsb_release -cs) \
 	   stable"
@@ -89,7 +94,7 @@ configure_zsh() {
 
 install_icons() {
   # https://www.ravefinity.com/p/vivacious-colors-gtk-icon-theme.html
-  sudo add-apt-repository ppa:ravefinity-project/ppa
+  sudo add-apt-repository -y ppa:ravefinity-project/ppa
   sudo apt-get update
   sudo apt-get install vivacious-colors
 }
@@ -138,10 +143,10 @@ install_flatpak() {
 install_tilix () {
   # Check if we're 16.04
   if [[ $(uname -a) == *"16.04"* ]]; then
-    sudo add-apt-repository ppa:webupd8team/terminix
+    sudo add-apt-repository -y ppa:webupd8team/terminix
     sudo ln -s /etc/profile.d/vte-2.91.sh /etc/profile.d/vte.sh
   fi
-  sudo apt get install -y tilix
+  sudo apt install -y tilix
 }
 
 ## MAIN
@@ -156,14 +161,16 @@ if [ ! -f ~/.ssh/id_rsa.pub ]; then
 		exit 1
 fi
 
-# Only install docker and snap apps if not on crostini
+# Only apps if not on crostini
 if [[ $(hostname) != "penguin" ]]; then
 	install_docker
   install_flatpak
+	install_tilix
+	install_cinnamon
+	# install_chrome
 fi
 
 install_deps
-install_tilix
 install_icons
 install_bazel
 configure_vim
@@ -173,3 +180,4 @@ symlink_dotfiles
 #TODO(curtismuntz): Add installers for:
 # fd: https://github.com/sharkdp/fd
 # bat: https://github.com/sharkdp/bat
+# chrome
