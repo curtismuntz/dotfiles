@@ -27,7 +27,7 @@ install_bazel() {
 }
 
 install_cinnamon() {
-	sudo add-apt-repository ppa:embrosyn/cinnamon
+	sudo add-apt-repository -y ppa:embrosyn/cinnamon
   sudo apt update && sudo apt install cinnamon
 }
 
