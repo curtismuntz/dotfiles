@@ -56,7 +56,6 @@ install_deps() {
     autojump \
     clang-format \
 		curl \
-		fonts-hack-ttf \
 		git \
 		nfs-common \
 		nmap \
@@ -70,13 +69,20 @@ install_deps() {
 		tree \
 		vim \
 		zsh
+	# todo
+  # install things for running cross compile containers n stuff
+  #sudo apt install binfmt-support qemu qemu-user-static
+
+	# is this needed?????
+	# fonts-hack-ttf \
+
 
 	sudo mkdir -p /opt/murt
 	sudo chown murt:murt /opt/murt
 
 	sudo chsh --shell $(which zsh) $(whoami)
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-	git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+	git clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
 	git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 }
@@ -88,7 +94,7 @@ configure_vim() {
 
 configure_zsh() {
   # https://medium.com/@christyjacob4/powerlevel9k-themes-f400759638c2
-  wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Hack/Regular/complete/Hack%20Regular%20Nerd%20Font%20Complete.ttf
+  wget --directory-prefix="$HOME"/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Hack/Regular/complete/Hack%20Regular%20Nerd%20Font%20Complete.ttf
 }
 
 
@@ -149,6 +155,31 @@ install_tilix () {
   sudo apt install -y tilix
 }
 
+install_keybase {
+	curl --remote-name https://prerelease.keybase.io/keybase_amd64.deb
+	# if you see an error about missing `libappindicator1` from the next
+	# command, you can ignore it, as the subsequent command corrects it
+	sudo dpkg -i keybase_amd64.deb
+	sudo apt-get install -f
+	run_keybase
+}
+
+install_some_tools() {
+	# Find replacement
+	# install fd: https://github.com/sharkdp/fd
+	wget --directory-prefix=/tmp https://github.com/sharkdp/fd/releases/download/v7.3.0/fd_7.3.0_amd64.deb
+	sudo dpkg -i /tmp/fd_7.3.0_amd64.deb
+
+  # cat replacement
+	# bat: https://github.com/sharkdp/bat
+	wget --directory-prefix=/tmp https://github.com/sharkdp/bat/releases/download/v0.11.0/bat_0.11.0_amd64.deb
+	sudo dpkg -i /tmp/bat_0.11.0_amd64.deb
+
+	# ls replacement
+	wget --directory-prefix=/tmp https://github.com/Peltoche/lsd/releases/download/0.15.1/lsd_0.15.1_amd64.deb
+	sudo dpkg -i /tmp/lsd_0.15.1_amd64.deb
+}
+
 ## MAIN
 if [ $(id -u) = 0 ]; then
    echo "Do not run this as root"
@@ -167,6 +198,7 @@ if [[ $(hostname) != "penguin" ]]; then
   install_flatpak
 	install_tilix
 	install_cinnamon
+	install_keybase
 	# install_chrome
 fi
 
@@ -178,6 +210,6 @@ configure_zsh
 symlink_dotfiles
 
 #TODO(curtismuntz): Add installers for:
-# fd: https://github.com/sharkdp/fd
-# bat: https://github.com/sharkdp/bat
 # chrome
+# virtualbox install
+# keybase install
