@@ -9,6 +9,15 @@ alias buildifier='~/go/bin/buildifier'
 
 # Other
 alias u='cd ..'
+
+if [ -n "$ZSH_VERSION" ]; then
+  # bat: https://github.com/sharkdp/bat
+  alias cat='bat'
+  # lsd: https://github.com/Peltoche/lsd
+  alias ls='lsd'
+fi
+
+
 alias ls=' ls --color=always'
 alias ll='ls -alF'
 alias la='ls -A'
