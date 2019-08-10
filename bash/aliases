@@ -66,54 +66,12 @@ alias swapesc='/usr/bin/setxkbmap -option "caps:swapescape"'
 alias ninja-ccache='PATH=/usr/lib/ccache:$PATH ninja'
 
 
-function build_and_copy_to_sim() {
-  set -x
-  local target=$1
-  local binary=`basename $target`
-  local bazel_binary="bazel-bin/$target/$binary"
-  bazel build $target
-  docker cp $bazel_binary drone-sim:/home/a17/a17/deploy/bin/$binary
-}
-
 function mount_nas() {
   local nas_ip=$1
   sudo mount -vvv -t nfs $nas_ip:/mnt/WD_5400_SATA/MurtNFS /mnt/freenas
 }
 
-function flash_teal_app_partition() {
-  sudo ./flash.sh -d /home/murt/Documents/jetpack/3.2_TEAL/teal_slash_boot/boot/dtb/teal-device-tree.dtb jetson-tx1 mmcblk0p1
-}
-
-function flash_teal_dtb_partition() {
-  sudo ./flash -r -k DTB jetson-tx1 mmcblk0p1
-}
-
 alias mkderp='mkdir -p'
-
-function run_simulator() {
-   # -v ~/a17/pkg/linux/bin:/opt/EXTERNALLY_BUILT/bin2 \
-   bazel run -c opt deploy/drone_sim_container:container && \
-   docker run --rm --network=host -it \
-      -v ~/a17/deploy/bin:/opt/EXTERNALLY_BUILT/bin \
-      -v ~/a17/pkg/linux/lib:/opt/EXTERNALLY_BUILT/pkg_linux_lib \
-      -v ~/a17/deploy/lib:/opt/EXTERNALLY_BUILT/deploy_lib \
-      -v ~/a17/px4:/opt/EXTERNALLY_BUILT/px4 \
-      -v ~/.gazebo/models:/opt/EXTERNALLY_BUILT/models \
-      bazel/deploy/drone_sim:container
-}
-
-function run_simulator_new_px4() {
-      #-v /home/murt/a17/px4_1.8.0_upgrade/px4_v_1.8.0:/opt/EXTERNALLY_BUILT/px4 \
-      #-v /home/murt/a17/px4_1.8.0_upgrade/mcsauder_px4:/opt/EXTERNALLY_BUILT/px4 \
-   bazel run -c opt deploy/drone_sim_container:container && \
-   docker run --rm --network=host -it \
-      -v ~/a17/px4_1.8.0_upgrade/px4_HEAD_1_8_0:/opt/EXTERNALLY_BUILT/px4 \
-      -v ~/a17/deploy/bin:/opt/EXTERNALLY_BUILT/bin \
-      -v ~/a17/pkg/linux/lib:/opt/EXTERNALLY_BUILT/pkg_linux_lib \
-      -v ~/a17/deploy/lib:/opt/EXTERNALLY_BUILT/deploy_lib \
-      -v ~/.gazebo/models:/opt/EXTERNALLY_BUILT/models \
-      bazel/deploy/drone_sim:container
-}
 
 # to emulate armv7hf... note that this requires the linaro downlaoded and extracted to ~/murt/ext
 alias qemu-rpi='qemu-arm -L /home/murt/murt/ext/gcc-linaro-5.3.1-2016.05-x86_64_arm-linux-gnueabihf/arm-linux-gnueabihf/libc'
