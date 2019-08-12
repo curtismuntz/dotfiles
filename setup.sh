@@ -144,6 +144,10 @@ install_flatpak() {
         flatpak install -y flathub io.atom.Atom
         # Signal, messaging app
         flatpak install -y flathub org.signal.Signal
+        # Blender, 3d modeling
+        flatpak install -y flathub org.blender.Blender
+        # GIMP, photo editing
+        flatpak install -y flathub org.gimp.GIMP
 }
 
 install_tilix () {
