@@ -54,7 +54,7 @@ function screen_record () {
   # requires ffmpeg system installed =(
   # TODO(murt) move this into a dockerfile somehow...
   if [ $# -eq 0 ]; then
-    echo "Usage: screen_record [OUTPUT_FILENAME]"
+    echo "Usage: screen_record [OUTPUT_FILENAME].mkv"
     return 1
   fi
   local resolution=$(xdpyinfo | grep dimensions | sed -r 's/^[^0-9]*([0-9]+x[0-9]+).*$/\1/')
