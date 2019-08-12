@@ -7,6 +7,10 @@ export PYTHONSTARTUP=~/.pythonrc
 export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:$(go env GOPATH)/bin
 
+
+# rust
+source ~/.cargo/env
+
 # cuda
 export CUDA_HOME=/usr/local/cuda
 export PATH=${CUDA_HOME}/bin:${PATH}
