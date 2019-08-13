@@ -15,13 +15,14 @@ if [ -n "$ZSH_VERSION" ]; then
   alias cat='bat'
   # lsd: https://github.com/Peltoche/lsd
   alias ls='lsd'
+else
+  alias ls=' ls --color=always'
 fi
 
-
-alias ls=' ls --color=always'
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ll'
+
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
