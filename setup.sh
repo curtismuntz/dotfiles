@@ -1,5 +1,5 @@
 #! /bin/bash
-set -x
+set -eux
 
 finish() {
 	 # do stuff
@@ -205,6 +205,7 @@ fi
 
 install_deps
 install_bazel
+install_some_tools
 configure_vim
 configure_zsh
 symlink_dotfiles
