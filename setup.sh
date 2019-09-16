@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/usr/bin/env
 set -eux
 
 finish() {
@@ -8,6 +8,8 @@ finish() {
 };
 
 trap finish EXIT INT TERM
+
+OS=$(lsb_release -rs)
 
 force_ln_s() {
   # if the file doesn't exist, link it; otherwise backup the old file and link it
@@ -54,33 +56,23 @@ install_deps() {
   sudo apt-get upgrade -y
   sudo apt-get install -y \
     autojump \
+		binfmt-support \
     clang-format \
     curl \
     git \
     nfs-common \
     nmap \
     openssh-client \
-    python \
-    python-pip \
-    python3 \
-    python3-pip \
+		qemu qemu-user-static \
     rsync \
     tmux \
     tree \
     vim \
     zsh
-  # todo
-  # install things for running cross compile containers n stuff
-  #sudo apt install binfmt-support qemu qemu-user-static
 
-  sudo mkdir -p /opt/murt
-  sudo chown murt:murt /opt/murt
-
-  sudo chsh --shell $(which zsh) $(whoami)
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-  git clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
-  git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+	# Make common directories
+  sudo mkdir -p /opt/murt/data /mnt/freenas /mnt/laptop
+  sudo chown murt:murt /opt/murt /mnt/freenas /mnt/laptop
 }
 
 configure_vim() {
@@ -89,6 +81,11 @@ configure_vim() {
 }
 
 configure_zsh() {
+	sudo chsh --shell $(which zsh) $(whoami)
+	sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+	git clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
+	git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
   # https://medium.com/@christyjacob4/powerlevel9k-themes-f400759638c2
   wget --directory-prefix="$HOME"/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Hack/Regular/complete/Hack%20Regular%20Nerd%20Font%20Complete.ttf
 }
@@ -122,10 +119,22 @@ symlink_dotfiles() {
   if ! [ -f "$HOME/.pythonrc" ]; then ln -s $DIR/python/pythonrc $HOME/.pythonrc; fi
 }
 
+install_python() {
+	sudo apt install -y python3 python3-venv
+}
+
+install_rust() {
+	curl https://sh.rustup.rs -sSf | sh
+}
+
+
 install_flatpak() {
   echo "Installing flatpak and flatpak apps"
-  sudo add-apt-repository -y ppa:alexlarsson/flatpak
-  sudo apt update
+	# Flatpak is available in 19.04 via apt without need for ppa.
+	if [[ $OS != "19.04" ]]; then
+  	sudo add-apt-repository -y ppa:alexlarsson/flatpak
+		sudo apt update
+	fi
   sudo apt install -y flatpak
   flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   # Spotify, music app
@@ -147,14 +156,15 @@ install_flatpak() {
 }
 
 install_tilix () {
-  # Check if we're 16.04
-  if [[ $(uname -a) == *"16.04"* ]]; then
+  # Tilix needs a ppa on 16.04
+  if [[ $OS == "16.04" ]]; then
     sudo add-apt-repository -y ppa:webupd8team/terminix
     sudo ln -s /etc/profile.d/vte-2.91.sh /etc/profile.d/vte.sh
   fi
   sudo apt install -y tilix
 }
 
+#TODO(curtismuntz): Add install keybase support!
 #install_keybase {
 #	curl --remote-name https://prerelease.keybase.io/keybase_amd64.deb
 #	# if you see an error about missing `libappindicator1` from the next
@@ -164,7 +174,7 @@ install_tilix () {
 #	run_keybase
 #}
 
-install_some_tools() {
+install_tools() {
   # Find replacement
   # install fd: https://github.com/sharkdp/fd
   wget --directory-prefix=/tmp https://github.com/sharkdp/fd/releases/download/v7.3.0/fd_7.3.0_amd64.deb
@@ -192,25 +202,30 @@ if [ ! -f ~/.ssh/id_rsa.pub ]; then
   exit 1
 fi
 
+# ALWAYS INSTALL:
+install_deps
+install_bazel
+install_tools
+install_python
+install_rust
+configure_vim
+configure_zsh
+symlink_dotfiles
+
+# CONDITIONALLY INSTALL:
 # Only apps if not on crostini
 if [[ $(hostname) != "penguin" ]]; then
   install_docker
   install_flatpak
   install_tilix
-  install_cinnamon
-  # install_keybase
-  # install_chrome
-  # install_icons
+	# install_keybase
+	if [[ $OS == "16.04" ]]; then
+  	install_cinnamon
+  	install_icons
+	fi
 fi
 
-install_deps
-install_bazel
-install_some_tools
-configure_vim
-configure_zsh
-symlink_dotfiles
-
 #TODO(curtismuntz): Add installers for:
-# chrome
 # virtualbox install
 # keybase install
+echo "DONE! You may want to reboot..."

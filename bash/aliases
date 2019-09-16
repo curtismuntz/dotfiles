@@ -11,8 +11,6 @@ alias buildifier='~/go/bin/buildifier'
 alias u='cd ..'
 
 if [ -n "$ZSH_VERSION" ]; then
-  # bat: https://github.com/sharkdp/bat
-  alias cat='bat'
   # lsd: https://github.com/Peltoche/lsd
   alias ls='lsd'
 else
@@ -70,6 +68,25 @@ alias ninja-ccache='PATH=/usr/lib/ccache:$PATH ninja'
 function mount_nas() {
   local nas_ip=$1
   sudo mount -vvv -t nfs $nas_ip:/mnt/WD_5400_SATA/MurtNFS /mnt/freenas
+}
+
+function mount_laptop() {
+  local laptop_ip=$1
+  local me=$(whoami)
+  sudo sshfs $me@$laptop_ip:/home/$me /mnt/laptop
+}
+
+function unmount_nas() {
+  sudo umount /mnt/freenas
+}
+
+function unmount_laptop() {
+  sudo umount /mnt/laptop
+}
+
+function unmount_all() {
+  unmount_laptop
+  unmount_nas
 }
 
 alias mkderp='mkdir -p'
