@@ -73,7 +73,7 @@ function mount_nas() {
 function mount_laptop() {
   local laptop_ip=$1
   local me=$(whoami)
-  sudo sshfs $me@$laptop_ip:/home/$me /mnt/laptop
+  sudo sshfs -o allow_other $me@$laptop_ip:/home/$me /mnt/laptop
 }
 
 function unmount_nas() {
