@@ -44,6 +44,7 @@ let g:clang_format#style_options = {
   \ "AllowShortIfStatementsOnASingleLine" : "true",
   \ "DerivePointerAlignment" : "false",
   \ "PointerAlignment" : "Right",
+  \ "ConstructorInitializerAllOnOneLineOrOnePerLine": "true",
   \ "Standard" : "C++11",
   \ "ColumnLimit" : "100" }
 autocmd FileType c,cpp,objc nnoremap <C-k> :<C-u>ClangFormat<CR>

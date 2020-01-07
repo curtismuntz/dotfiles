@@ -16,7 +16,7 @@ dcleanup() {
 }
 
 dpurge() {
-  docker rmi $(docker images -q)
+  docker rmi --force $(docker images -q)
 }
 
 # copied from jessfrazz

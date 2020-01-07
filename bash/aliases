@@ -13,8 +13,10 @@ alias u='cd ..'
 if [ -n "$ZSH_VERSION" ]; then
   # lsd: https://github.com/Peltoche/lsd
   alias ls='lsd'
+  alias lt='ls --tree --depth'
 else
   alias ls=' ls --color=always'
+  alias ltd='tree -L'
 fi
 
 alias ll='ls -alF'

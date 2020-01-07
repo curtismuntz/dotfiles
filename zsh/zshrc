@@ -83,7 +83,7 @@ zstyle ':completion:*' cache-path ~/.zsh/cache
 # Automatically run tree after cd
 function chpwd() {
     emulate -L zsh
-    tree -L 1
+    lt 1
 }
 
 if [ $TILIX_ID ]; then
