@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# my bash tools
+export PATH=$PATH:${HOME}/murt/dotfiles/tools
+
 # python
 export PYTHONSTARTUP=~/.pythonrc
 
@@ -9,7 +12,6 @@ if [[ -d /snap/bin ]]; then
   export PATH=$PATH:/snap/bin
 fi
 export PATH=$PATH:$(go env GOPATH)/bin
-
 
 # rust
 source ~/.cargo/env
