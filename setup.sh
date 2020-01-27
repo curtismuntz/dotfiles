@@ -72,7 +72,7 @@ install_deps() {
 
 	# Make common directories
   sudo mkdir -p /opt/murt/data /mnt/freenas /mnt/laptop
-  sudo chown murt:murt /opt/murt /mnt/freenas /mnt/laptop
+  sudo chown 1000:1000 /opt/murt /mnt/freenas /mnt/laptop
 }
 
 configure_vim() {
