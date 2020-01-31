@@ -1,4 +1,4 @@
-#!/usr/bin/env
+#!/usr/bin/env bash
 set -eux
 
 finish() {
@@ -22,7 +22,17 @@ force_ln_s() {
 	fi
 }
 
-install_bazel() {
+clone_git_repo() {
+	local url=$1
+	local folder=$2
+	if [ ! -d "$folder" ] ; then
+    git clone "$url" "$folder"
+	else
+		cd "$folder" && git pull
+	fi
+}
+
+install_bazel_tools() {
   sudo snap install --classic go
   go get github.com/bazelbuild/buildtools/buildifier
   go get github.com/bazelbuild/bazelisk
@@ -41,6 +51,9 @@ install_docker() {
     curl \
     software-properties-common
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+	if [[ "$OS" == "19.10" ]]; then
+		sudo bash -c 'echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu disco stable" > /etc/apt/sources.list.d/docker-ce.list'
+	fi
   sudo add-apt-repository -y \
     "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
     $(lsb_release -cs) \
@@ -76,16 +89,20 @@ install_deps() {
 }
 
 configure_vim() {
-  git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+  clone_git_repo https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
   vim +PluginInstall +qall
 }
 
 configure_zsh() {
+	if [[ -d "$HOME/.oh-my-zsh" ]]; then
+		echo "ZSH seemingly already installed. Skipping..."
+		return 0
+	fi
 	sudo chsh --shell $(which zsh) $(whoami)
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-	git clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
-	git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+	clone_git_repo https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
+	clone_git_repo https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+	clone_git_repo https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
   # https://medium.com/@christyjacob4/powerlevel9k-themes-f400759638c2
   wget --directory-prefix="$HOME"/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Hack/Regular/complete/Hack%20Regular%20Nerd%20Font%20Complete.ttf
 }
@@ -131,10 +148,6 @@ install_rust() {
 install_flatpak() {
   echo "Installing flatpak and flatpak apps"
 	# Flatpak is available in 19.04 via apt without need for ppa.
-	if [[ $OS != "19.04" ]]; then
-  	sudo add-apt-repository -y ppa:alexlarsson/flatpak
-		sudo apt update
-	fi
   sudo apt install -y flatpak
   flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   # Spotify, music app
@@ -204,7 +217,7 @@ fi
 
 # ALWAYS INSTALL:
 install_deps
-install_bazel
+install_bazel_tools
 install_tools
 install_python
 install_rust
@@ -218,10 +231,9 @@ if [[ $(hostname) != "penguin" ]]; then
   install_docker
   install_flatpak
   install_tilix
-	# install_keybase
 	if [[ $OS == "16.04" ]]; then
-  	install_cinnamon
-  	install_icons
+ 	  install_cinnamon
+ 	  install_icons
 	fi
 fi
 
