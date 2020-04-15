@@ -46,6 +46,25 @@ custom_zim() {
        murtis/zimwiki
 }
 
+zoom() {
+  del_stoped zoom
+  KEY=$(xauth list  |grep $(hostname) | awk '{ print $3 }' | head -n 1)
+  DCK_HOST=docker-zoom
+  xauth add $DCK_HOST/unix:0 . $KEY
+  docker run --rm -it \
+      -v /tmp/.X11-unix:/tmp/.X11-unix \
+      -e DISPLAY=unix$DISPLAY \
+      -v $HOME/.Xauthority:/tmp/.Xauthority \
+      --device /dev/video0 \
+      --device /dev/snd:/dev/snd \
+      --device /dev/dri \
+      -v /dev/shm:/dev/shm \
+      --name zoom \
+      -h $DCK_HOST \
+      -e XAUTHORITY=/tmp/.Xauthority  \
+     jess/zoom-us
+}
+
 jupyter_notebook() {
   docker run -it --rm \
   -p 8888:8888 \

@@ -16,3 +16,5 @@
 [core]
 	editor = vim
 	whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+[pager]
+	branch = false

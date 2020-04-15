@@ -240,4 +240,5 @@ fi
 #TODO(curtismuntz): Add installers for:
 # virtualbox install
 # keybase install
+# dropbox install
 echo "DONE! You may want to reboot..."
