@@ -58,8 +58,20 @@ function screen_record () {
     echo "Usage: screen_record [OUTPUT_FILENAME].mkv"
     return 1
   fi
+  filename=$1
+  monitor=$2
   local resolution=$(xdpyinfo | grep dimensions | sed -r 's/^[^0-9]*([0-9]+x[0-9]+).*$/\1/')
-  ffmpeg -framerate 25 -video_size $resolution -f x11grab -i :0.0 -f alsa -ac 2 -i pulse -vcodec libx264 -crf 0 -preset ultrafast $1
+  local width_resolution=$(cut -d 'x' -f1 <<< $resolution)
+  local half_width=$((width_resolution/2))
+  local height_resolution=$(cut -d 'x' -f2 <<< $resolution)
+  if [[ $monitor -eq 1 ]]; then
+    desired_resolution="${half_width}x${height_resolution}"
+  else
+    desired_resolution="$resolution"
+  fi
+  echo "Full resolution: $resolution"
+  echo "Desired resolution: $desired_resolution"
+  ffmpeg -framerate 25 -video_size $desired_resolution -f x11grab -i :0.0 -f alsa -ac 2 -i pulse -vcodec libx264 -crf 0 -preset ultrafast $1
 }
 
 
