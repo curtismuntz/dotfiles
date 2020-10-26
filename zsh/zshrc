@@ -86,6 +86,6 @@ function chpwd() {
     lt 1
 }
 
-if [ $TILIX_ID ]; then
-    source /etc/profile.d/vte.sh
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+        source /etc/profile.d/vte.sh
 fi
