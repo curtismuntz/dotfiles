@@ -33,33 +33,32 @@ clone_git_repo() {
 }
 
 install_bazel_tools() {
-  sudo snap install --classic go
-  go get github.com/bazelbuild/buildtools/buildifier
-  go get github.com/bazelbuild/bazelisk
+  wget https://go.dev/dl/go1.17.8.linux-amd64.tar.gz
+	sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.17.8.linux-amd64.tar.gz
+	rm go1.17.8.linux-amd64.tar.gz
+  export PATH=$PATH:/usr/local/go/bin && go get github.com/bazelbuild/buildtools/buildifier
+  export PATH=$PATH:/usr/local/go/bin && go get github.com/bazelbuild/bazelisk
 }
 
 install_cinnamon() {
-  sudo add-apt-repository -y ppa:embrosyn/cinnamon
   sudo apt update && sudo apt install cinnamon
 }
 
 install_docker() {
   sudo apt-get update
   sudo apt-get install -y \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    software-properties-common
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-	if [[ "$OS" == "19.10" ]]; then
-		sudo bash -c 'echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu disco stable" > /etc/apt/sources.list.d/docker-ce.list'
-	fi
-  sudo add-apt-repository -y \
-    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-    $(lsb_release -cs) \
-    stable"
+	    ca-certificates \
+	    curl \
+	    gnupg \
+	    lsb-release
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+	sudo bash -c 'echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null'
+
   sudo apt-get update
-  sudo apt-get install -y docker-ce docker-compose
+  sudo apt-get install -y docker-ce docker-ce-cli containerd.io
   sudo usermod -aG docker $(whoami)
 }
 
@@ -69,21 +68,22 @@ install_deps() {
   sudo apt-get upgrade -y
   sudo apt-get install -y \
     autojump \
-		binfmt-support \
+    binfmt-support \
     clang-format \
     curl \
     git \
+		lsb-release \
     nfs-common \
     nmap \
     openssh-client \
-		qemu qemu-user-static \
+    qemu \
+		qemu-user-static \
     rsync \
     tmux \
     tree \
     vim \
     zsh
-
-	# Make common directories
+  # Make common directories
   sudo mkdir -p /opt/murt/data /mnt/freenas /mnt/laptop
   sudo chown 1000:1000 /opt/murt /mnt/freenas /mnt/laptop
 }
@@ -169,11 +169,6 @@ install_flatpak() {
 }
 
 install_tilix () {
-  # Tilix needs a ppa on 16.04
-  if [[ $OS == "16.04" ]]; then
-    sudo add-apt-repository -y ppa:webupd8team/terminix
-    sudo ln -s /etc/profile.d/vte-2.91.sh /etc/profile.d/vte.sh
-  fi
   sudo apt install -y tilix
 }
 
@@ -190,17 +185,17 @@ install_tilix () {
 install_tools() {
   # Find replacement
   # install fd: https://github.com/sharkdp/fd
-  wget --directory-prefix=/tmp https://github.com/sharkdp/fd/releases/download/v7.3.0/fd_7.3.0_amd64.deb
-  sudo dpkg -i /tmp/fd_7.3.0_amd64.deb
+  wget --directory-prefix=/tmp https://github.com/sharkdp/fd/releases/download/v8.3.2/fd_8.3.2_amd64.deb
+  sudo dpkg -i /tmp/fd_8.3.2_amd64.deb
 
   # cat replacement
   # bat: https://github.com/sharkdp/bat
-  wget --directory-prefix=/tmp https://github.com/sharkdp/bat/releases/download/v0.11.0/bat_0.11.0_amd64.deb
-  sudo dpkg -i /tmp/bat_0.11.0_amd64.deb
+  wget --directory-prefix=/tmp https://github.com/sharkdp/bat/releases/download/v0.20.0/bat_0.20.0_amd64.deb
+  sudo dpkg -i /tmp/bat_0.20.0_amd64.deb
 
   # ls replacement
-  wget --directory-prefix=/tmp https://github.com/Peltoche/lsd/releases/download/0.15.1/lsd_0.15.1_amd64.deb
-  sudo dpkg -i /tmp/lsd_0.15.1_amd64.deb
+  wget --directory-prefix=/tmp https://github.com/Peltoche/lsd/releases/download/0.21.0/lsd_0.21.0_amd64.deb
+  sudo dpkg -i /tmp/lsd_0.21.0_amd64.deb
 }
 
 ## MAIN
@@ -231,10 +226,8 @@ if [[ $(hostname) != "penguin" ]]; then
   install_docker
   install_flatpak
   install_tilix
-	if [[ $OS == "16.04" ]]; then
- 	  install_cinnamon
- 	  install_icons
-	fi
+  install_cinnamon
+  install_icons
 fi
 
 #TODO(curtismuntz): Add installers for:
