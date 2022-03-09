@@ -227,7 +227,7 @@ if [[ $(hostname) != "penguin" ]]; then
   install_flatpak
   install_tilix
   install_cinnamon
-  install_icons
+  # install_icons # TODO(cmuntz) this broken for impish
 fi
 
 #TODO(curtismuntz): Add installers for:
