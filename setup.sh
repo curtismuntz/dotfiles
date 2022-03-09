@@ -58,7 +58,7 @@ install_docker() {
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null'
 
   sudo apt-get update
-  sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+  sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose
   sudo usermod -aG docker $(whoami)
 }
 
@@ -227,11 +227,14 @@ if [[ $(hostname) != "penguin" ]]; then
   install_flatpak
   install_tilix
   install_cinnamon
-  # install_icons # TODO(cmuntz) this broken for impish
+  # install_icons # TODO(curtismuntz) this broken for impish
 fi
 
 #TODO(curtismuntz): Add installers for:
 # virtualbox install
 # keybase install
 # dropbox install
+# kubernetes install
+# lutris install
+# v4lloopback
 echo "DONE! You may want to reboot..."
