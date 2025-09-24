@@ -1,6 +1,6 @@
-# Setup
+# Setup on non-nixos machine:
 
-Assumptions
+Assumptions: username=murt
 
 Install nix:
 
@@ -41,3 +41,4 @@ Set zsh as shell:
 command -v zsh | sudo tee -a /etc/shells
 chsh -s $(which zsh)
 ```
+
