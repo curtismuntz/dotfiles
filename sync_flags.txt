@@ -1,2 +1,0 @@
---github_username=curtismuntz
---gitlab_username=murtis
