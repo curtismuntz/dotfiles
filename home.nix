@@ -1,0 +1,98 @@
+{ config, pkgs, ... }:
+
+{
+  home.username = "murt";
+  home.homeDirectory = "/home/murt";
+
+  home.stateVersion = "25.05"; # Please read the comment before changing.
+
+  home.packages = [
+    # # Adds the 'hello' command to your environment. It prints a friendly
+    # # "Hello, world!" when run.
+    pkgs.hello
+    pkgs.git
+    pkgs.direnv
+    pkgs.atuin
+
+    # # It is sometimes useful to fine-tune packages, for example, by applying
+    # # overrides. You can do that directly here, just don't forget the
+    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
+    # # fonts?
+    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+
+    # # You can also create simple shell scripts directly inside your
+    # # configuration. For example, this adds a command 'my-hello' to your
+    # # environment:
+    # (pkgs.writeShellScriptBin "my-hello" ''
+    #   echo "Hello, ${config.home.username}!"
+    # '')
+  ];
+
+  # Home Manager is pretty good at managing dotfiles. The primary way to manage
+  # plain files is through 'home.file'.
+  home.file = {
+    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
+    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
+    # # symlink to the Nix store copy.
+    # ".screenrc".source = dotfiles/screenrc;
+
+    # # You can also set the file content immediately.
+    # ".gradle/gradle.properties".text = ''
+    #   org.gradle.console=verbose
+    #   org.gradle.daemon.idletimeout=3600000
+    # '';
+  };
+
+  # Home Manager can also manage your environment variables through
+  # 'home.sessionVariables'. These will be explicitly sourced when using a
+  # shell provided by Home Manager. If you don't want to manage your shell
+  # through Home Manager then you have to manually source 'hm-session-vars.sh'
+  # located at either
+  #
+  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+  #
+  # or
+  #
+  #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
+  #
+  # or
+  #
+  #  /etc/profiles/per-user/murt/etc/profile.d/hm-session-vars.sh
+  #
+  home.sessionVariables = {
+    EDITOR = "vim";
+  };
+
+  # Let Home Manager install and manage itself.
+  programs.home-manager.enable = true;
+
+  programs.zsh = {
+      enable = true;
+      shellAliases = {
+        swapesc = "setxkbmap -option caps:swapescape";
+        u = "cd ..";
+	mvim = "nix run github:curtismuntz/nixvim-flake";
+	lmvim = "nix run /home/murt/code/personal/nixvim-flake";
+      };
+      # enableAutosuggestions = true;
+      initContent = ''
+       eval "$(direnv hook zsh)"
+       eval "$(atuin init zsh)"
+       bindkey '^ ' autosuggest-accept
+       bindkey '^[[H' beginning-of-line
+       bindkey '^[[F' end-of-line
+       bindkey '^[[3~' delete-char
+       ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=5'
+      '';
+      history = {
+        size = 10000;
+      };
+      oh-my-zsh = { # "ohMyZsh" without Home Manager
+        enable = true;
+        plugins = ["git"];
+        #theme = "fletcherm";
+	theme = "agnoster";
+      };
+    };
+
+}
