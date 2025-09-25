@@ -18,7 +18,7 @@
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
     # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+    pkgs.nerd-fonts.jetbrains-mono
 
     # # You can also create simple shell scripts directly inside your
     # # configuration. For example, this adds a command 'my-hello' to your
@@ -135,6 +135,33 @@
       set -g @catppuccin_date_time_text "%H:%M"
       #set -g @catppuccin_meetings_text "#($HOME/.config/tmux/scripts/cal.sh)"
     '';
+    };
+    programs.git = {
+      enable = true;
+      userName  = "murt";
+      userEmail = "me@murt.is";
+      aliases = {
+        st = "status";
+        ci = "commit";
+        br = "branch";
+        co = "checkout";
+        last = "log -1 HEAD";
+        l = "log --pretty=oneline -n 20 --graph --abbrev-commit";
+        s = "status -s";
+      };
+      extraConfig = {
+        core.editor = "vim";
+      };
+      delta = {
+        enable = true;
+        options = {
+          syntax-theme = "Monokai Extended";
+          line-numbers = true;
+          side-by-side = true;
+          plus-color = "#012800";
+          minus-color = "#340001";
+        };
+      };
     };
 
 }
