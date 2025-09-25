@@ -68,11 +68,14 @@
 
   programs.zsh = {
       enable = true;
+      autosuggestion.enable = true;
+      syntaxHighlighting.enable = true;
       shellAliases = {
         swapesc = "setxkbmap -option caps:swapescape";
         u = "cd ..";
 	mvim = "nix run github:curtismuntz/nixvim-flake";
 	lmvim = "nix run /home/murt/code/personal/nixvim-flake";
+	ls = "ls --color=auto";
       };
       # enableAutosuggestions = true;
       initContent = ''
@@ -89,7 +92,21 @@
       };
       oh-my-zsh = { # "ohMyZsh" without Home Manager
         enable = true;
-        plugins = ["git"];
+        plugins = [
+	  "tmux"
+	  "z"
+	  "git"
+	  "mercurial"
+	  "command-not-found"
+	  "python"
+	  "pip"
+	  "github"
+	  "gnu-utils"
+	  "history-substring-search"
+	  "colored-man-pages"
+	  "catimg"
+	  "docker"
+	];
         #theme = "fletcherm";
 	theme = "agnoster";
       };
