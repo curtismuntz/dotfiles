@@ -86,6 +86,7 @@
        bindkey '^[[F' end-of-line
        bindkey '^[[3~' delete-char
        ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=5'
+       source ~/.p10k.zsh
       '';
       history = {
         size = 10000;
@@ -110,6 +111,13 @@
         #theme = "fletcherm";
 	theme = "agnoster";
       };
+      plugins = [
+        {
+          name = "powerlevel10k";
+	  src = pkgs.zsh-powerlevel10k;
+	  file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+	}
+      ];
   };
   programs.tmux = {
     enable = true;
